@@ -4,7 +4,7 @@
 # =====================================================================
 backend:
   name: github
-  repo: YOUR-GITHUB-USERNAME/YOUR-REPOSITORY   # <<< CHANGE THIS  (example: aliakbar/sasports-site)
+  repo: repo: mianbilalakbarjanjua/SAsports   # <<< CHANGE THIS  (example: aliakbar/sasports-site)
   branch: main                                  # the branch your GitHub Pages site is published from
   # If you use the Cloudflare login worker (recommended for the owner), remove the # below
   # and put your worker address.  If you use a personal access token, leave it as it is.
