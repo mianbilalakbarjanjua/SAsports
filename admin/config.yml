@@ -1,0 +1,70 @@
+# =====================================================================
+#  SA Sports - admin panel settings (Sveltia CMS)
+#  ONLY EDIT THE TWO LINES MARKED  <<< CHANGE THIS
+# =====================================================================
+backend:
+  name: github
+  repo: YOUR-GITHUB-USERNAME/YOUR-REPOSITORY   # <<< CHANGE THIS  (example: aliakbar/sasports-site)
+  branch: main                                  # the branch your GitHub Pages site is published from
+  # If you use the Cloudflare login worker (recommended for the owner), remove the # below
+  # and put your worker address.  If you use a personal access token, leave it as it is.
+  # base_url: https://YOUR-WORKER-NAME.YOUR-ACCOUNT.workers.dev   # <<< CHANGE THIS (only for the worker method)
+
+site_url: https://www.sasports.store
+display_url: https://www.sasports.store
+logo_url: https://www.sasports.store/img/logo.png
+
+# Photos uploaded in the panel go into the "img" folder, the same place as the existing product photos.
+media_folder: img
+public_folder: /img
+
+# Every uploaded photo is automatically shrunk to at most 1400 pixels and converted to WebP,
+# so the website stays fast even if the owner uploads a large photo from the phone camera.
+media_libraries:
+  default:
+    config:
+      max_file_size: 15728640        # 15 MB upload limit before shrinking
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1400
+          height: 1400
+
+collections:
+  - name: shop
+    label: "Products / پروڈکٹس"
+    files:
+      - name: products
+        label: "All Products / تمام پروڈکٹس"
+        file: products.json
+        format: json
+        fields:
+          - label: "Products / پروڈکٹس"
+            name: products
+            widget: list
+            label_singular: "product"
+            summary: "{{fields.name}}  -  Rs {{fields.price}}"
+            fields:
+              - { label: "Product name / پروڈکٹ کا نام", name: name, widget: string }
+              - label: "Category / کیٹیگری"
+                name: category
+                widget: select
+                options:
+                  - { label: "Bats / بلے", value: bats }
+                  - { label: "Pads / پیڈز", value: pads }
+                  - { label: "Gloves / گلوز", value: gloves }
+                  - { label: "Balls / گیندیں", value: balls }
+                  - { label: "Helmets & Guards / ہیلمٹ اور گارڈز", value: protect }
+                  - { label: "Bags & Kits / بیگ اور کِٹس", value: kits }
+              - label: "Sub-category / ذیلی کیٹیگری"
+                name: sub
+                widget: select
+                hint: "Choose the one that matches the category. Bats: Premium or Classic. Pads: Classic, Colour or Limited. Gloves: Wicketkeeping or Batting. Balls: Match or Practice. Helmets & Guards: Helmets or Guards. Bags & Kits: Kit Bags, Full Kits or Accessories."
+                options: [Premium, Classic, Colour, Limited, Wicketkeeping, Batting, Match, Practice, Helmets, Guards, Kit Bags, Full Kits, Accessories]
+              - { label: "Price in Rs / قیمت (روپے)", name: price, widget: number, value_type: int, min: 0 }
+              - { label: "Stock / سٹاک کی تعداد", name: stock, widget: number, value_type: int, min: 0, required: false, hint: "How many pieces are left. 0 = shows Sold out. Leave empty = do not show stock. 10 or fewer = shows Only X left. / خالی چھوڑیں تو سٹاک نہیں دکھے گا۔ ۰ لکھیں تو Sold out۔" }
+              - { label: "Photo / تصویر", name: image, widget: image, hint: "One clear photo, ideally with a plain background. It is shrunk automatically. / ایک صاف تصویر، سادہ پس منظر بہتر ہے۔" }
+              - { label: "Description / تفصیل", name: description, widget: text, hint: "One or two short lines. / ایک دو مختصر لائنیں۔" }
+              - { label: "Hide from website / سائٹ سے چھپائیں", name: hidden, widget: boolean, default: false, hint: "Switch on to hide this product without deleting it. / بغیر ڈیلیٹ کیے چھپانے کے لیے آن کریں۔" }

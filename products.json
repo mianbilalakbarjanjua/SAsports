@@ -1,0 +1,283 @@
+{
+  "products": [
+    {
+      "category": "bats",
+      "sub": "Premium",
+      "image": "/img/bat-apex.webp",
+      "name": "SA Apex Series",
+      "price": 18500,
+      "description": "Multi-grain English willow blade with a deep edge and a big, forgiving middle.",
+      "hidden": false
+    },
+    {
+      "category": "bats",
+      "sub": "Premium",
+      "image": "/img/bat-le.webp",
+      "name": "SA Limited Edition",
+      "price": 24500,
+      "description": "Our top-spec blade. Hand-selected willow, long barrel, pro-level pick-up.",
+      "hidden": false
+    },
+    {
+      "category": "bats",
+      "sub": "Premium",
+      "image": "/img/bat-pro.webp",
+      "name": "SA Pro",
+      "price": 14500,
+      "description": "The all-rounder: balanced, quick off the bat and ready for hard-ball cricket.",
+      "hidden": false
+    },
+    {
+      "category": "bats",
+      "sub": "Premium",
+      "image": "/img/bat-31.webp",
+      "name": "SA Pro Elite",
+      "price": 16500,
+      "description": "Refined Pro profile with a thicker spine for power through the line.",
+      "hidden": false
+    },
+    {
+      "category": "bats",
+      "sub": "Classic",
+      "image": "/img/bat-cricket.webp",
+      "name": "SA Cricket Classic",
+      "price": 9500,
+      "description": "A clean everyday blade for club cricketers and serious practice.",
+      "hidden": false
+    },
+    {
+      "category": "bats",
+      "sub": "Classic",
+      "image": "/img/bat-blue.webp",
+      "name": "SA Cricket Blue Series",
+      "price": 8500,
+      "description": "Bold blue SA branding on a light, lively blade. Great for rising players.",
+      "hidden": false
+    },
+    {
+      "category": "bats",
+      "sub": "Classic",
+      "image": "/img/bat-sports.webp",
+      "name": "SA Sports Heritage",
+      "price": 11500,
+      "description": "Traditional shaping with the SA Sports label. Solid, reliable, proven.",
+      "hidden": false
+    },
+    {
+      "category": "pads",
+      "sub": "Classic",
+      "image": "/img/pads-black.webp",
+      "name": "SA Pro Pads, Black",
+      "price": 5800,
+      "description": "Lightweight, high-density foam with a contoured fit and secure straps.",
+      "hidden": false
+    },
+    {
+      "category": "pads",
+      "sub": "Classic",
+      "image": "/img/pads-white.webp",
+      "name": "SA Pro Pads, White",
+      "price": 5800,
+      "description": "Classic white match pads. Light on the legs, firm on impact.",
+      "hidden": false
+    },
+    {
+      "category": "pads",
+      "sub": "Classic",
+      "image": "/img/pads-black2.webp",
+      "name": "SA Match Pads, Black",
+      "price": 5200,
+      "description": "Ribbed protection and flexible knee roll for quick running.",
+      "hidden": false
+    },
+    {
+      "category": "pads",
+      "sub": "Colour",
+      "image": "/img/pads-blue.webp",
+      "name": "SA Colour Pads, Royal Blue",
+      "price": 5500,
+      "description": "Stand out at the crease. Same SA protection in a vivid royal blue.",
+      "hidden": false
+    },
+    {
+      "category": "pads",
+      "sub": "Colour",
+      "image": "/img/pads-red.webp",
+      "name": "SA Colour Pads, Red",
+      "price": 5500,
+      "description": "Bold red pads built to the same comfortable, protective spec.",
+      "hidden": false
+    },
+    {
+      "category": "pads",
+      "sub": "Limited",
+      "image": "/img/pads-le.webp",
+      "name": "SA Limited Edition Pads, Black",
+      "price": 7500,
+      "description": "Premium diamond-quilted shell with gold Limited Edition detailing.",
+      "hidden": false
+    },
+    {
+      "category": "pads",
+      "sub": "Limited",
+      "image": "/img/pads-white2.webp",
+      "name": "SA Limited Edition Pads, White",
+      "price": 6800,
+      "description": "Premium white pads with extra cushioning and a sculpted knee roll.",
+      "hidden": false
+    },
+    {
+      "category": "gloves",
+      "sub": "Wicketkeeping",
+      "image": "/img/wk-gloves.webp",
+      "name": "SA Keeping Gloves, Player Edition",
+      "price": 6500,
+      "description": "Soft palm, wide sweet spot and a snug wrist for clean takes.",
+      "hidden": false
+    },
+    {
+      "category": "gloves",
+      "sub": "Wicketkeeping",
+      "image": "/img/wk-gloves2.webp",
+      "name": "SA Keeping Gloves, Player Edition Pro",
+      "price": 7200,
+      "description": "Gold and green Player Edition with reinforced fingers and padded back.",
+      "hidden": false
+    },
+    {
+      "category": "gloves",
+      "sub": "Batting",
+      "image": "/img/bat-gloves.webp",
+      "name": "SA Batting Gloves",
+      "price": 4800,
+      "description": "Flexible finger protection and breathable palm for long innings.",
+      "hidden": false
+    },
+    {
+      "category": "balls",
+      "sub": "Match",
+      "image": "/img/ball-red.webp",
+      "name": "SA Match Ball, Dark Red",
+      "price": 1950,
+      "description": "Four-piece leather ball with a tight, durable seam and gold SA stamp.",
+      "hidden": false
+    },
+    {
+      "category": "balls",
+      "sub": "Match",
+      "image": "/img/ball-set.webp",
+      "name": "SA Match Ball, Red",
+      "price": 1850,
+      "description": "Bright red match ball for nets and tournament play.",
+      "hidden": false
+    },
+    {
+      "category": "balls",
+      "sub": "Match",
+      "image": "/img/ball-box.webp",
+      "name": "SA Match Balls, Box of 6",
+      "price": 10500,
+      "description": "A box of six hard-ball red cricket balls, best value for clubs and academies.",
+      "hidden": false
+    },
+    {
+      "category": "balls",
+      "sub": "Practice",
+      "image": "/img/ball-pink.webp",
+      "name": "SA Practice Ball, Pink",
+      "price": 1650,
+      "description": "Pink leather ball, easy to track in low light and evening sessions.",
+      "hidden": false
+    },
+    {
+      "category": "protect",
+      "sub": "Helmets",
+      "image": "/img/helmet.webp",
+      "name": "SA Helmet, Steel Grille",
+      "price": 5500,
+      "description": "Tough shell, padded interior and a steel grille with clear sight lines.",
+      "hidden": false
+    },
+    {
+      "category": "protect",
+      "sub": "Guards",
+      "image": "/img/guard-white.webp",
+      "name": "SA Thigh Guard, White",
+      "price": 2200,
+      "description": "Slim, comfortable thigh protection for batters who move freely.",
+      "hidden": false
+    },
+    {
+      "category": "protect",
+      "sub": "Guards",
+      "image": "/img/guard-black.webp",
+      "name": "SA Thigh Guard, Black and Gold",
+      "price": 2800,
+      "description": "Hard-shell guard with extra cushioning and a secure strap.",
+      "hidden": false
+    },
+    {
+      "category": "protect",
+      "sub": "Guards",
+      "image": "/img/guard-pro.webp",
+      "name": "SA Pro Thigh Guard",
+      "price": 2600,
+      "description": "Contoured protection with a padded inner pocket.",
+      "hidden": false
+    },
+    {
+      "category": "kits",
+      "sub": "Kit Bags",
+      "image": "/img/bag-player.webp",
+      "name": "SA Kit Bag, Player Edition",
+      "price": 9500,
+      "description": "Roomy backpack-style bag with separate bat and shoe compartments.",
+      "hidden": false
+    },
+    {
+      "category": "kits",
+      "sub": "Kit Bags",
+      "image": "/img/bag-red.webp",
+      "name": "SA Complete Red Kit Set",
+      "price": 48500,
+      "description": "Matching red bag, pads, gloves and bat. Everything in one set.",
+      "hidden": false
+    },
+    {
+      "category": "kits",
+      "sub": "Full Kits",
+      "image": "/img/kit1.webp",
+      "name": "SA Complete Player Kit, Black",
+      "price": 58000,
+      "description": "Bat, pads, gloves, helmet, guard and bag. Ready for the first ball.",
+      "hidden": false
+    },
+    {
+      "category": "kits",
+      "sub": "Full Kits",
+      "image": "/img/kit3.webp",
+      "name": "SA Complete Player Kit, White",
+      "price": 52000,
+      "description": "A full white kit with wicketkeeping gloves, pads, helmet and bag.",
+      "hidden": false
+    },
+    {
+      "category": "kits",
+      "sub": "Full Kits",
+      "image": "/img/kit4.webp",
+      "name": "SA Pro Combo Kit",
+      "price": 55000,
+      "description": "Premium combo of bat, protection and kit bag at a bundled price.",
+      "hidden": false
+    },
+    {
+      "category": "kits",
+      "sub": "Accessories",
+      "image": "/img/cover.webp",
+      "name": "SA Bat Cover and Grips Pack",
+      "price": 1200,
+      "description": "Protective bat cover with spare grips to keep your blade fresh.",
+      "hidden": false
+    }
+  ]
+}
