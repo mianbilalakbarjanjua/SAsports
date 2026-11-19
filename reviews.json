@@ -1,1 +1,10 @@
-{"reviews": []}
+{
+  "reviews": [
+    {
+      "name": "Muhammad Jawad Akbar",
+      "city": "Jhang",
+      "rating": 5,
+      "text": "The product Quality is really amaizing"
+    }
+  ]
+}
