@@ -4,7 +4,7 @@
 # =====================================================================
 backend:
   name: github
-  repo: repo: mianbilalakbarjanjua/SAsports   # <<< CHANGE THIS  (example: aliakbar/sasports-site)
+  repo: mianbilalakbarjanjua/SAsports
   branch: main                                  # the branch your GitHub Pages site is published from
   # If you use the Cloudflare login worker (recommended for the owner), remove the # below
   # and put your worker address.  If you use a personal access token, leave it as it is.
@@ -68,3 +68,31 @@ collections:
               - { label: "Photo / تصویر", name: image, widget: image, hint: "One clear photo, ideally with a plain background. It is shrunk automatically. / ایک صاف تصویر، سادہ پس منظر بہتر ہے۔" }
               - { label: "Description / تفصیل", name: description, widget: text, hint: "One or two short lines. / ایک دو مختصر لائنیں۔" }
               - { label: "Hide from website / سائٹ سے چھپائیں", name: hidden, widget: boolean, default: false, hint: "Switch on to hide this product without deleting it. / بغیر ڈیلیٹ کیے چھپانے کے لیے آن کریں۔" }
+
+  - name: more
+    label: "Reviews & Settings / ریویو اور ترتیبات"
+    files:
+      - name: reviews
+        label: "Customer Reviews / گاہکوں کی رائے"
+        file: reviews.json
+        format: json
+        fields:
+          - label: "Reviews (add only REAL reviews from real customers) / صرف اصلی گاہکوں کی اصلی رائے ڈالیں"
+            name: reviews
+            widget: list
+            label_singular: "review"
+            summary: "{{fields.name}}  -  {{fields.rating}} stars"
+            fields:
+              - { label: "Customer name / گاہک کا نام", name: name, widget: string }
+              - { label: "City / شہر", name: city, widget: string, required: false }
+              - { label: "Rating 1 to 5 / ستارے", name: rating, widget: number, value_type: int, min: 1, max: 5 }
+              - { label: "Review / رائے", name: text, widget: text }
+      - name: settings
+        label: "Settings / ترتیبات"
+        file: settings.json
+        format: json
+        fields:
+          - { label: "Value of Rs 1 in US dollars (for example 0.0036) / ایک روپے کے کتنے ڈالر", name: usd, widget: number, value_type: float, step: 0.0001 }
+          - { label: "Value of Rs 1 in British pounds (for example 0.0027) / ایک روپے کے کتنے پاؤنڈ", name: gbp, widget: number, value_type: float, step: 0.0001 }
+          - { label: "Value of Rs 1 in euros (for example 0.0031) / ایک روپے کے کتنے یورو", name: eur, widget: number, value_type: float, step: 0.0001 }
+          - { label: "Wholesale note shown on the wholesale page / تھوک صفحے کا نوٹ", name: wholesale_note, widget: text }
