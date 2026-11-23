@@ -1,0 +1,84 @@
+{
+ "announcements": [
+  "Made in Sialkot, delivered worldwide",
+  "Custom bats made to your game",
+  "Cash on delivery in Pakistan"
+ ],
+ "slides": [
+  {
+   "image": "img/h-bat.webp",
+   "mobile_image": "img/m-bat.webp",
+   "video": "",
+   "title": "Built in Sialkot. Swung worldwide.",
+   "link": "bats/"
+  },
+  {
+   "image": "img/h-keep.webp",
+   "mobile_image": "img/m-keep.webp",
+   "video": "",
+   "title": "Gear up behind the stumps",
+   "link": "gloves/"
+  },
+  {
+   "image": "img/h-bowl.webp",
+   "mobile_image": "img/m-bowl.webp",
+   "video": "",
+   "title": "Every ball counts",
+   "link": "balls/"
+  },
+  {
+   "image": "img/h-kit.webp",
+   "mobile_image": "img/m-kit.webp",
+   "video": "",
+   "title": "The complete kit",
+   "link": "bags-kits/"
+  },
+  {
+   "image": "img/h-stad.webp",
+   "mobile_image": "img/m-stad.webp",
+   "video": "",
+   "title": "Play like a pro",
+   "link": "pads/"
+  }
+ ],
+ "collections": [
+  {
+   "title": "Cricket Bats",
+   "image": "img/bat-apex.webp",
+   "link": "bats/"
+  },
+  {
+   "title": "Batting Pads",
+   "image": "img/pads-black.webp",
+   "link": "pads/"
+  },
+  {
+   "title": "Gloves",
+   "image": "img/wk-gloves.webp",
+   "link": "gloves/"
+  },
+  {
+   "title": "Balls",
+   "image": "img/ball-red.webp",
+   "link": "balls/"
+  },
+  {
+   "title": "Helmets & Guards",
+   "image": "img/helmet.webp",
+   "link": "helmets-guards/"
+  },
+  {
+   "title": "Kit Bags",
+   "image": "img/bag-player.webp",
+   "link": "bags-kits/"
+  }
+ ],
+ "trusted_title": "Trusted by Players",
+ "trusted": [],
+ "about_title": "Ignite your game",
+ "about_text": "SA Sports is a Sialkot manufacturer of premium cricket bats and a complete cricket gear dealer. Custom bats are made to the weight, pick-up and profile you play with, delivered worldwide.",
+ "about_image": "img/h-stad.webp",
+ "videos_title": "Quality you can count on",
+ "videos": [],
+ "gallery": []
+}

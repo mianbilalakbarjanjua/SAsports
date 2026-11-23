@@ -33,6 +33,56 @@ media_libraries:
           height: 1400
 
 collections:
+  - name: home
+    label: "Homepage / ہوم پیج"
+    files:
+      - name: home
+        label: "Homepage content / ہوم پیج کا مواد"
+        file: home.json
+        format: json
+        fields:
+          - { label: "Top bar messages / اوپر کی پٹی کے پیغامات", name: announcements, widget: list, field: { label: "Message", name: m, widget: string } }
+          - label: "Hero slides (big pictures or videos) / بڑی تصاویر یا ویڈیو"
+            name: slides
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Picture (desktop) / تصویر", name: image, widget: image, required: false }
+              - { label: "Picture (mobile, tall) / موبائل کی تصویر", name: mobile_image, widget: image, required: false }
+              - { label: "Video (mp4, under 15 MB) / ویڈیو", name: video, widget: file, required: false, hint: "If a video is added it plays instead of the picture. Keep it short and compressed. / مختصر اور چھوٹی ویڈیو" }
+              - { label: "Big heading / عنوان", name: title, widget: string, required: false }
+              - { label: "Link (for example bats/) / لنک", name: link, widget: string, required: false }
+          - label: "Shop by collection tiles / کلیکشن ٹائلز"
+            name: collections
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title / نام", name: title, widget: string }
+              - { label: "Picture / تصویر", name: image, widget: image }
+              - { label: "Link (for example pads/) / لنک", name: link, widget: string }
+          - { label: "Players section title / کھلاڑیوں والے حصے کا عنوان", name: trusted_title, widget: string, required: false }
+          - label: "Players / customers pictures / کھلاڑیوں کی تصاویر"
+            name: trusted
+            widget: list
+            summary: "{{fields.caption}}"
+            fields:
+              - { label: "Picture / تصویر", name: image, widget: image }
+              - { label: "Caption / کیپشن", name: caption, widget: string, required: false }
+          - { label: "About title / ہمارے بارے میں عنوان", name: about_title, widget: string }
+          - { label: "About text / ہمارے بارے میں متن", name: about_text, widget: text }
+          - { label: "About picture / تصویر", name: about_image, widget: image, required: false }
+          - { label: "Videos section title / ویڈیو والے حصے کا عنوان", name: videos_title, widget: string, required: false }
+          - label: "Vertical videos (or pictures) / عمودی ویڈیوز"
+            name: videos
+            widget: list
+            fields:
+              - { label: "Video (mp4) or picture / ویڈیو یا تصویر", name: file, widget: file, hint: "Tall 9:16 videos look best, under 15 MB each. / ۱۵ ایم بی سے کم" }
+          - label: "Gallery strip (black band) / گیلری"
+            name: gallery
+            widget: list
+            fields:
+              - { label: "Picture / تصویر", name: image, widget: image }
+
   - name: shop
     label: "Products / پروڈکٹس"
     files:
@@ -67,7 +117,10 @@ collections:
               - { label: "Stock / سٹاک کی تعداد", name: stock, widget: number, value_type: int, min: 0, required: false, hint: "How many pieces are left. 0 = shows Sold out. Leave empty = do not show stock. 10 or fewer = shows Only X left. / خالی چھوڑیں تو سٹاک نہیں دکھے گا۔ ۰ لکھیں تو Sold out۔" }
               - { label: "Photo / تصویر", name: image, widget: image, hint: "One clear photo, ideally with a plain background. It is shrunk automatically. / ایک صاف تصویر، سادہ پس منظر بہتر ہے۔" }
               - { label: "Description / تفصیل", name: description, widget: text, hint: "One or two short lines. / ایک دو مختصر لائنیں۔" }
-              - { label: "Hide from website / سائٹ سے چھپائیں", name: hidden, widget: boolean, default: false, hint: "Switch on to hide this product without deleting it. / بغیر ڈیلیٹ کیے چھپانے کے لیے آن کریں۔" }
+              - { label: "Old price (for Sale badge) / پرانی قیمت", name: old_price, widget: number, value_type: int, min: 0, required: false, hint: "Higher than price = shows a Sale badge with this price crossed out. / قیمت سے زیادہ لکھیں تو سیل کا نشان آئے گا۔" }
+          - { label: "Show in Bestseller / بیسٹ سیلر میں دکھائیں", name: bestseller, widget: boolean, default: false }
+          - { label: "Show in New Launches / نئی لانچ میں دکھائیں", name: new_launch, widget: boolean, default: false }
+          - { label: "Hide from website / سائٹ سے چھپائیں", name: hidden, widget: boolean, default: false, hint: "Switch on to hide this product without deleting it. / بغیر ڈیلیٹ کیے چھپانے کے لیے آن کریں۔" }
 
   - name: more
     label: "Reviews & Settings / ریویو اور ترتیبات"
