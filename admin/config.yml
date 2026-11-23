@@ -161,6 +161,29 @@ collections:
             fields:
               - { label: "Extra / چیز", name: name, widget: string }
               - { label: "Price (Rs) / قیمت", name: price, widget: number, value_type: int, min: 0 }
+      - name: payments
+        label: "Payment methods / ادائیگی کے طریقے"
+        file: payments.json
+        format: json
+        fields:
+          - { label: "Cash on delivery / کیش آن ڈیلیوری", name: cod, widget: boolean, default: true }
+          - { label: "Cash on delivery text / متن", name: cod_label, widget: string, required: false }
+          - { label: "International orders on WhatsApp / بیرون ملک آرڈر", name: international, widget: boolean, default: true }
+          - { label: "Accept Visa / Mastercard debit cards / ڈیبٹ کارڈ پیمنٹ", name: card_enabled, widget: boolean, default: false, hint: "Turn on only after you have a card payment page from a Pakistani payment gateway. / پہلے گیٹ وے کا پیمنٹ پیج لنک ڈالیں۔" }
+          - { label: "Card payment page link (https://...) / کارڈ پیمنٹ کا لنک", name: card_link, widget: string, required: false, hint: "The payment page or payment link your gateway gives you. / آپ کے گیٹ وے کا دیا ہوا لنک" }
+          - { label: "Card payment note / کارڈ پیمنٹ کی ہدایت", name: card_note, widget: text, required: false }
+          - { label: "Instructions shown to the customer / ہدایات", name: instructions, widget: text, required: false }
+          - label: "Accounts / اکاؤنٹس (empty ones are hidden / خالی چھپے رہیں گے)"
+            name: methods
+            widget: list
+            summary: "{{fields.type}}  {{fields.number}}"
+            fields:
+              - { label: "Type / قسم", name: type, widget: select, options: ["JazzCash", "Easypaisa", "Bank Account", "SadaPay", "NayaPay", "Raast"] }
+              - { label: "Account title (name) / اکاؤنٹ ٹائٹل", name: account_title, widget: string, required: false }
+              - { label: "Mobile wallet number or bank account number / نمبر", name: number, widget: string, required: false }
+              - { label: "Bank name (banks only) / بینک کا نام", name: bank_name, widget: string, required: false }
+              - { label: "IBAN (optional) / آئی بین", name: iban, widget: string, required: false }
+              - { label: "Show this account / دکھائیں", name: enabled, widget: boolean, default: true }
       - name: settings
         label: "Settings / ترتیبات"
         file: settings.json

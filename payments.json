@@ -1,0 +1,35 @@
+{
+ "cod": true,
+ "cod_label": "Cash on delivery (Pakistan)",
+ "international": true,
+ "instructions": "Send the exact total, then send the payment screenshot in the WhatsApp chat that opens. We start your order after we confirm the payment.",
+ "methods": [
+  {
+   "type": "JazzCash",
+   "account_title": "",
+   "number": "",
+   "bank_name": "",
+   "iban": "",
+   "enabled": true
+  },
+  {
+   "type": "Easypaisa",
+   "account_title": "",
+   "number": "",
+   "bank_name": "",
+   "iban": "",
+   "enabled": true
+  },
+  {
+   "type": "Bank Account",
+   "account_title": "",
+   "number": "",
+   "bank_name": "",
+   "iban": "",
+   "enabled": true
+  }
+ ],
+ "card_enabled": false,
+ "card_link": "",
+ "card_note": ""
+}
