@@ -140,6 +140,27 @@ collections:
               - { label: "City / شہر", name: city, widget: string, required: false }
               - { label: "Rating 1 to 5 / ستارے", name: rating, widget: number, value_type: int, min: 1, max: 5 }
               - { label: "Review / رائے", name: text, widget: text }
+      - name: custom
+        label: "Custom bat form / کسٹم بیٹ فارم"
+        file: custom.json
+        format: json
+        fields:
+          - { label: "Base price in Rs / بنیادی قیمت", name: base_price, widget: number, value_type: int, min: 0 }
+          - { label: "Note shown under the form / فارم کے نیچے نوٹ", name: note, widget: string, required: false }
+          - label: "Bat grades and price added / گریڈ اور اضافی قیمت (minus allowed)"
+            name: grades
+            widget: list
+            summary: "{{fields.name}}  {{fields.add}}"
+            fields:
+              - { label: "Grade name / گریڈ", name: name, widget: string }
+              - { label: "Price added to base (Rs) / اضافہ", name: add, widget: number, value_type: int }
+          - label: "Optional extras / اضافی چیزیں"
+            name: extras
+            widget: list
+            summary: "{{fields.name}}  {{fields.price}}"
+            fields:
+              - { label: "Extra / چیز", name: name, widget: string }
+              - { label: "Price (Rs) / قیمت", name: price, widget: number, value_type: int, min: 0 }
       - name: settings
         label: "Settings / ترتیبات"
         file: settings.json

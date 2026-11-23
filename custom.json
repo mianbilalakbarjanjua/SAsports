@@ -1,0 +1,40 @@
+{
+ "base_price": 15000,
+ "note": "Final price is confirmed on WhatsApp before we start making your bat.",
+ "grades": [
+  {
+   "name": "Grade 1+ (Players grade)",
+   "add": 8000
+  },
+  {
+   "name": "Grade 1",
+   "add": 4000
+  },
+  {
+   "name": "Grade 2",
+   "add": 0
+  },
+  {
+   "name": "Grade 3",
+   "add": -3000
+  }
+ ],
+ "extras": [
+  {
+   "name": "Extra grip",
+   "price": 100
+  },
+  {
+   "name": "Toe guard",
+   "price": 50
+  },
+  {
+   "name": "Anti-scuff sheet",
+   "price": 100
+  },
+  {
+   "name": "Oiling and knocking",
+   "price": 1000
+  }
+ ]
+}
