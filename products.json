@@ -520,15 +520,6 @@
       "price": 48500,
       "description": "Matching red bag, pads, gloves and bat. Everything in one set.",
       "hidden": false
-    },
-    {
-      "category": "kits",
-      "sub": "Full Kits",
-      "image": "/img/kit1.webp",
-      "name": "SA Complete Player Kit, Black",
-      "price": 58000,
-      "description": "Bat, pads, gloves, helmet, guard and bag. Ready for the first ball.",
-      "hidden": false
     }
   ]
 }
