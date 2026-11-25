@@ -499,11 +499,19 @@
     {
       "category": "protect",
       "sub": "Guards",
-      "image": "/img/guard-white.webp",
+      "image": "/img/sa-thigh-guard-white-mwwlx0cbkrs.webp",
       "name": "SA Thigh Guard, White",
       "price": 2200,
       "description": "Slim, comfortable thigh protection for batters who move freely.",
-      "hidden": false
+      "hidden": false,
+      "size": "",
+      "features": [],
+      "options": [],
+      "bestseller": false,
+      "new_launch": false,
+      "gallery": [
+        "/img/sa-thigh-guard-white-mwwlx279cio.webp"
+      ]
     },
     {
       "category": "protect",
