@@ -1,3 +1,8 @@
+/* 3D tilt on product cards (runs first, independent of everything else) */
+(function(){try{if(!matchMedia('(hover:hover)').matches)return;let cur=null;
+const off=()=>{if(cur){cur.style.transform='';cur.classList.remove('tilt');cur=null}};
+document.addEventListener('pointermove',e=>{if(e.pointerType&&e.pointerType!=='mouse')return;const c=e.target.closest&&e.target.closest('.pc');if(cur&&cur!==c)off();if(!c)return;cur=c;c.classList.add('tilt');const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(800px) rotateY('+(x*18).toFixed(2)+'deg) rotateX('+(-y*18).toFixed(2)+'deg) scale(1.06)'});
+document.addEventListener('mouseleave',off);window.addEventListener('blur',off)}catch(e){}})();
 let WA='923434762195';const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let CUR='PKR';try{CUR=localStorage.getItem('sa_cur')||'PKR'}catch(e){}
 let RATES={USD:0.0036,GBP:0.0027,EUR:0.0031};const SYM={USD:'$',GBP:'£',EUR:'€'};
@@ -40,11 +45,12 @@ const FALLBACK=[
 ['kits','Full Kits','kit4','SA Pro Combo Kit',55000,'Premium combo of bat, protection and kit bag at a bundled price.'],
 ['kits','Accessories','cover','SA Bat Cover and Grips Pack',1200,'Protective bat cover with spare grips to keep your blade fresh.']
 ];
-function setProducts(raw){const seen={};P=(raw||[]).filter(x=>x&&x.name&&!x.hidden).map((x,i)=>{let id=slug(x.name)||('p'+i);if(seen[id])id+='-'+i;seen[id]=1;const st=(x.stock===''||x.stock==null||isNaN(+x.stock))?null:Math.max(0,+x.stock),r=rel(x.image);return{id,c:x.category,s:x.sub,rel:r,image:BASE+r,n:String(x.name),p:+x.price||0,old:+x.old_price||0,d:String(x.description||''),stock:st,best:!!x.bestseller,nw:!!x.new_launch,sz:String(x.size||''),f:(x.features||[]).map(v=>typeof v==='string'?v:(v&&v.f)).filter(Boolean),o:(x.options||[]).filter(q=>q&&q.name&&(q.values||[]).length).map(q=>({n:q.name,v:q.values.map(z=>typeof z==='string'?z:(z&&z.v)).filter(Boolean)}))}});PM={};P.forEach(p=>PM[p.id]=p);pR=1;redraw();drawCart()}
+function setProducts(raw){const seen={};P=(raw||[]).filter(x=>x&&x.name&&!x.hidden).map((x,i)=>{let id=slug(x.name)||('p'+i);if(seen[id])id+='-'+i;seen[id]=1;const st=(x.stock===''||x.stock==null||isNaN(+x.stock))?null:Math.max(0,+x.stock),r=rel(x.image);return{id,c:x.category,s:x.sub,rel:r,image:BASE+r,n:String(x.name),p:+x.price||0,old:+x.old_price||0,d:String(x.description||''),stock:st,best:!!x.bestseller,nw:!!x.new_launch,sz:String(x.size||''),g:(x.gallery||[]).map(v=>typeof v==='string'?v:(v&&v.image)).filter(Boolean).map(rel),f:(x.features||[]).map(v=>typeof v==='string'?v:(v&&v.f)).filter(Boolean),o:(x.options||[]).filter(q=>q&&q.name&&(q.values||[]).length).map(q=>({n:q.name,v:q.values.map(z=>typeof z==='string'?z:(z&&z.v)).filter(Boolean)}))}});PM={};P.forEach(p=>PM[p.id]=p);pR=1;redraw();drawCart()}
 function injectLD(){const c=CATS.find(x=>x[0]===PAGECAT);if(!c)return;let e=document.getElementById('ld-items');if(!e){e=document.createElement('script');e.type='application/ld+json';e.id='ld-items';document.head.appendChild(e)}e.textContent=JSON.stringify({'@context':'https://schema.org','@type':'ItemList',name:'SA Sports '+c[1],itemListElement:P.filter(p=>p.c===PAGECAT).map((p,i)=>({'@type':'ListItem',position:i+1,item:{'@type':'Product',name:p.n,description:p.d,image:SITE+p.rel,brand:{'@type':'Brand',name:'SA Sports'},offers:{'@type':'Offer',url:SITE+c[3]+'/',priceCurrency:'PKR',price:String(p.p),availability:p.stock===0?'https://schema.org/OutOfStock':'https://schema.org/InStock'}}}))})}
-const card=p=>{const so=p.stock===0,low=p.stock!=null&&p.stock>0&&p.stock<=10,sale=p.old>p.p;return `<article class="pc"><div class="im" data-pv="${esc(p.id)}">${so?'<span class="bd so">Sold out</span>':sale?'<span class="bd">Sale</span>':low?`<span class="bd lo">Only ${p.stock} left</span>`:''}<img src="${esc(p.image)}" alt="${esc(p.n)}" loading="lazy">${so?'':`<button class="qa" data-add="${esc(p.id)}" aria-label="Add to cart">+</button>`}</div><h3>${esc(p.n)}</h3><div class="pr">${pk(p.p)}${sale?` <s>${pk(p.old)}</s>`:''}</div></article>`};
+const PURL=id=>BASE+'product/?p='+encodeURIComponent(id);
+const card=p=>{const so=p.stock===0,low=p.stock!=null&&p.stock>0&&p.stock<=10,sale=p.old>p.p;return `<article class="pc" data-pv="${esc(p.id)}"><div class="im">${so?'<span class="bd so">Sold out</span>':sale?'<span class="bd">Sale</span>':low?`<span class="bd lo">Only ${p.stock} left</span>`:''}<img src="${esc(p.image)}" alt="${esc(p.n)}" loading="lazy">${so?'':`<button class="qa" data-add="${esc(p.id)}" aria-label="Add to cart">+</button>`}</div><h3><a href="${esc(PURL(p.id))}">${esc(p.n)}</a></h3><div class="pr">${pk(p.p)}${sale?` <s>${pk(p.old)}</s>`:''}</div></article>`};
 const car=(h,c='')=>`<div class="cw"><button class="ar l" data-sc="-1" aria-label="Previous">‹</button><div class="car ${c}">${h}</div><button class="ar r" data-sc="1" aria-label="Next">›</button></div>`;
-function redraw(){if(PAGECAT){render();if(pR)injectLD()}else if(pR&&hR)renderHome()}
+function redraw(){if(document.body.dataset.page==='product'){if(pR)renderProduct()}else if(PAGECAT){render();if(pR)injectLD()}else if(pR&&hR)renderHome()}
 function render(){const c=CATS.find(x=>x[0]===PAGECAT);if(!c||!$('#grid'))return;const L=P.filter(p=>p.c===PAGECAT&&(!sub||p.s===sub));
 $('#tabS').innerHTML=[['','All']].concat(c[2].map(s=>[s,s])).map(t=>`<button class="${sub===t[0]?'on':''}" data-sub="${esc(t[0])}">${esc(t[1])}</button>`).join('');
 $('#grid').innerHTML=L.map(card).join('')||'<p class="sub">No products here yet.</p>'}
@@ -62,7 +68,8 @@ const V=(H.videos||[]).filter(v=>v&&v.file);$('#vt').textContent=H.videos_title|
 const G=(H.gallery||[]).filter(g=>g&&g.image);on('#gal',car(G.map(g=>`<img src="${esc(BASE+rel(g.image))}" alt="" loading="lazy">`).join('')),G.length);
 const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?e.target.play().catch(()=>{}):e.target.pause()),{threshold:.4});$$('#vg video').forEach(v=>io.observe(v))}
 document.addEventListener('click',e=>{const s=e.target.closest('[data-sub]'),a=e.target.closest('[data-add]'),v=e.target.closest('[data-pv]'),c=e.target.closest('[data-sc]'),d=e.target.closest('[data-d]');
-if(s){sub=s.dataset.sub;render()}if(a&&!a.disabled){const q=PM[a.dataset.add];if(q&&q.o.length){pv(q.id);return}add(a.dataset.add);return}if(v)pv(v.dataset.pv);
+if(s){sub=s.dataset.sub;render()}if(a&&!a.disabled){const q=PM[a.dataset.add];if(q&&q.o.length){location.href=PURL(q.id);return}add(a.dataset.add);return}if(v&&!e.target.closest('a'))location.href=PURL(v.dataset.pv);const th=e.target.closest('[data-gi]');if(th){$('#gm img').src=th.dataset.gi;$$('.ths button').forEach(b=>b.classList.toggle('on',b===th))}
+if(e.target.id==='pdpAdd')pdpAdd();
 if(c){const w=c.closest('.cw').querySelector('.car');w.scrollBy({left:c.dataset.sc*w.clientWidth*.8,behavior:'smooth'})}
 if(d)go(+d.dataset.d);if(e.target.id==='hn')go(si+1);if(e.target.id==='hp')go(si-1)});
 const sb=$('#sbtn');if(sb){sb.onclick=()=>{const s=$('#srch');s.hidden=!s.hidden;if(!s.hidden)$('#sq').focus()};$('#sq').oninput=e=>{const k=s=>s.toLowerCase().replace(/[^a-z0-9]/g,''),q=k(e.target.value);$('#sr').innerHTML=q?'<div class="grid">'+P.filter(p=>k(p.n).includes(q)||k(p.d).includes(q)).slice(0,12).map(card).join('')+'</div>':''}}
@@ -71,6 +78,31 @@ let pid='';function pv(i){const p=PM[i];if(!p)return;pid=i;$('#pi').src=p.image;
 x.innerHTML=(p.sz?`<div class="pz"><b>Size:</b> ${esc(p.sz)}</div>`:'')+(p.f.length?'<ul class="pf">'+p.f.map(t=>`<li>${esc(t)}</li>`).join('')+'</ul>':'')+p.o.map((q,k)=>`<label class="po">${esc(q.n)}<select data-po="${k}">${q.v.map(z=>`<option>${esc(z)}</option>`).join('')}</select></label>`).join('');$('#pv').showModal()}
 function ens(k){if(!PM[k]&&k.indexOf('~')>0){const b=PM[k.split('~')[0]];if(b)PM[k]=Object.assign({},b,{n:b.n+' ('+k.split('~')[1]+')'})}}
 $('#px').onclick=()=>$('#pv').close();$('#pv').addEventListener('click',e=>{if(e.target.id==='pv')e.target.close()});$('#pa').onclick=()=>{const p=PM[pid],ch=$$('#pex select').map((s,k)=>p.o[k].n+': '+s.value);let key=pid;if(ch.length)key=pid+'~'+ch.join(', ').replace(/[^\w ,:.\-]/g,'');ens(key);add(key);$('#pv').close()};
+
+/* full product page: /product/?p=slug */
+function renderProduct(){const m=$('#pdp');if(!m)return;const id=new URLSearchParams(location.search).get('p'),p=PM[id];
+if(!p){m.innerHTML='<h1>Product not found</h1><p class="cp"><a href="'+BASE+'">Back to the shop</a></p>';return}
+const so=p.stock===0,sale=p.old>p.p,low=p.stock!=null&&p.stock>0&&p.stock<=10,imgs=[p.image].concat(p.g.map(r=>BASE+r)),c=CATS.find(x=>x[0]===p.c)||[];
+document.title=p.n+' | SA Sports Sialkot';const md=document.querySelector('meta[name=description]');if(md)md.content=p.d.slice(0,155);
+let L=P.filter(x=>x.id!==p.id&&x.c===p.c).sort((a,b)=>(b.s===p.s)-(a.s===p.s));if(L.length<6)L=L.concat(P.filter(x=>x.id!==p.id&&x.c!==p.c).slice(0,8-L.length));
+const sel=m.querySelectorAll('[data-po]'),keep=[...sel].map(s=>s.value);
+m.innerHTML=`<nav class="bc"><a href="${BASE}">Home</a> › ${c[3]?`<a href="${BASE+c[3]}/">${esc(c[1])}</a> › `:''}<span>${esc(p.n)}</span></nav>
+<div class="pdg"><div><div class="gm" id="gm"><img src="${esc(imgs[0])}" alt="${esc(p.n)}"></div>${imgs.length>1?'<div class="ths">'+imgs.map((s,i)=>`<button type="button" data-gi="${esc(s)}" class="${i?'':'on'}"><img src="${esc(s)}" alt=""></button>`).join('')+'</div>':''}</div>
+<div class="pdi"><h1>${esc(p.n)}</h1>${p.s?`<span class="tag">${esc(p.s)}</span>`:''}${p.best?'<span class="tag g">Bestseller</span>':''}${p.nw?'<span class="tag g">New</span>':''}
+<div class="pr big">${pk(p.p)}${sale?` <s>${pk(p.old)}</s>`:''}</div>
+<p class="avl ${so?'no':''}">${so?'Sold out':low?'Only '+p.stock+' left in stock':'In stock, ready to ship'}</p>
+<p class="pdd">${esc(p.d)}</p>${p.sz?`<p><b>Size:</b> ${esc(p.sz)}</p>`:''}
+${p.f.length?'<h3>Key features</h3><ul class="pf">'+p.f.map(t=>`<li>${esc(t)}</li>`).join('')+'</ul>':''}
+${p.o.map((q,k)=>`<label class="po">${esc(q.n)}<select data-po="${k}">${q.v.map(z=>`<option>${esc(z)}</option>`).join('')}</select></label>`).join('')}
+<div class="pdb"><button class="add" id="pdpAdd" ${so?'disabled':''}>${so?'Sold out':'Add to cart'}</button><a class="btn wab" id="pdpWa" target="_blank" rel="noopener">Order on WhatsApp</a></div>
+<ul class="trust"><li>Made in Sialkot by the manufacturer</li><li>Cash on delivery across Pakistan</li><li>Worldwide delivery</li><li>7-day return and exchange</li></ul></div></div>
+${L.length?`<section class="rel"><h2>Related products</h2>${car(L.map(card).join(''))}</section>`:''}`;
+m.querySelectorAll('[data-po]').forEach((s,k)=>{if(keep[k])s.value=keep[k]});
+$('#pdpWa').href=wl('Hello SA Sports, I am interested in '+p.n+' ('+pkr(p.p)+'). '+location.href);
+const g=$('#gm');g.onmousemove=e=>{const r=g.getBoundingClientRect();g.firstChild.style.transformOrigin=((e.clientX-r.left)/r.width*100)+'% '+((e.clientY-r.top)/r.height*100)+'%'};
+let e=document.getElementById('ld-p');if(!e){e=document.createElement('script');e.type='application/ld+json';e.id='ld-p';document.head.appendChild(e)}
+e.textContent=JSON.stringify({'@context':'https://schema.org','@type':'Product',name:p.n,description:p.d,image:imgs.map(s=>new URL(s,location.href).href),brand:{'@type':'Brand',name:'SA Sports'},offers:{'@type':'Offer',url:location.href,priceCurrency:'PKR',price:String(p.p),availability:so?'https://schema.org/OutOfStock':'https://schema.org/InStock'}})}
+function pdpAdd(){const p=PM[new URLSearchParams(location.search).get('p')];if(!p||p.stock===0)return;const ch=$$('#pdp select[data-po]').map((s,k)=>p.o[k].n+': '+s.value);let key=p.id;if(ch.length)key=p.id+'~'+ch.join(', ').replace(/[^\w ,:.\-]/g,'');ens(key);add(key);$('#cart').classList.add('open')}
 /* cart (shared between all pages through localStorage) */
 let cart={};try{cart=JSON.parse(localStorage.getItem('sa_cart')||'{}')}catch(e){}
 const save=()=>{try{localStorage.setItem('sa_cart',JSON.stringify(cart))}catch(e){}};
@@ -117,7 +149,3 @@ const _dc=drawCart;drawCart=function(){_dc();if(window.__showPay)window.__showPa
 fetch(BASE+'pages.json',{cache:'no-cache'}).then(r=>r.json()).then(d=>{$$('[data-t]').forEach(e=>{const v=e.dataset.t.split('.').reduce((o,k)=>o&&o[k],d);if(v)e.textContent=v});
 $$('[data-body]').forEach(e=>{const v=(e.dataset.body.split('.').reduce((o,k)=>o&&o[k],d)||'');if(v)e.innerHTML=mdx(v)})}).catch(()=>{});
 function mdx(t){return String(t).split(/\n\s*\n/).map(b=>{b=b.trim();if(/^##\s/.test(b))return '<h2>'+esc(b.replace(/^##\s*/,''))+'</h2>';if(/^[-*]\s/.test(b))return '<ul>'+b.split('\n').map(l=>'<li>'+esc(l.replace(/^[-*]\s*/,''))+'</li>').join('')+'</ul>';return '<p>'+esc(b).replace(/\n/g,'<br>')+'</p>'}).join('')}
-/* 3D tilt on product cards */
-if(matchMedia('(hover:hover)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches){let cur=null;
-document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.pc');if(cur&&cur!==c){cur.style.transform='';cur=null}if(!c)return;cur=c;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(900px) rotateY(${x*12}deg) rotateX(${-y*12}deg) scale(1.05)`});
-document.addEventListener('pointerleave',()=>{if(cur){cur.style.transform='';cur=null}})}

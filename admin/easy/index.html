@@ -26,57 +26,123 @@ dialog{border:0;border-radius:20px;padding:0;width:min(680px,96vw);max-height:94
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:12px 22px;border-radius:99px;display:none;z-index:99;max-width:92vw}
 .empty{text-align:center;padding:60px 10px;color:#777}.err{color:#b00020;font-weight:700}
 @media(max-width:520px){.two,.orow{grid-template-columns:1fr}}
-</style></head><body>
-<div id="app"></div><dialog id="dlg"></dialog><div id="toast"></div>
+
+.tabs{display:flex;gap:6px;overflow-x:auto;background:#222;padding:8px 14px;position:sticky;top:60px;z-index:4}.tabs button{white-space:nowrap;background:#333;color:#fff;padding:9px 16px}.tabs button.on{background:var(--g);color:#000}
+.sec2{background:#fff;border-radius:var(--r);padding:16px;margin-bottom:16px;box-shadow:0 2px 10px #0001}.sec2>h3{margin:0 0 10px}
+details.li{border:2px solid #e4e4de;border-radius:12px;margin:8px 0;background:#fafaf8}details.li>summary{padding:10px 14px;cursor:pointer;font-weight:700;display:flex;gap:8px;align-items:center}details.li>summary .nm{flex:1}details.li>.bd{padding:0 14px 14px;display:grid;gap:12px}
+.sm{padding:4px 10px;border-radius:8px;font-size:14px}.ir{display:flex;gap:6px;margin-bottom:6px}.ir input{flex:1}
+.med{border:2px dashed #cfcfc8;border-radius:12px;padding:10px;text-align:center;background:#fff}.med img,.med video{max-width:100%;max-height:200px;border-radius:8px;display:block;margin:0 auto 8px}
+.ph{display:flex;gap:10px;flex-wrap:wrap}.ph div{width:104px;text-align:center;font-size:12px;position:relative}.ph img{width:104px;height:104px;object-fit:contain;background:#f0f0ee;border-radius:10px;border:3px solid transparent;display:block}.ph .m img{border-color:var(--g)}.ph button{padding:3px 8px;font-size:12px;margin-top:3px}
+.mv{position:absolute;top:2px;inset-inline-start:2px;display:flex;gap:2px}.mv button{margin:0;padding:1px 6px;background:#fffd}
+.fbar{position:sticky;bottom:0;background:#fff;padding:12px 16px;border-top:1px solid #ddd;display:flex;gap:10px;z-index:4}.fbar .pri{flex:1}
+</style></head><body><div id="app"></div><dialog id="dlg"></dialog><div id="toast"></div>
+<datalist id="links"><option value="bats/"><option value="pads/"><option value="gloves/"><option value="balls/"><option value="helmets-guards/"><option value="bags-kits/"><option value="custom/"><option value="wholesale/"><option value="track/"><option value="returns/"><option value="shipping/"></datalist>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const CATS={bats:['بلے (Bats)',['Premium','Classic']],pads:['پیڈز (Pads)',['Classic','Colour','Limited']],gloves:['گلوز (Gloves)',['Wicketkeeping','Batting']],balls:['گیندیں (Balls)',['Match','Practice']],protect:['ہیلمٹ اور گارڈز',['Helmets','Guards']],kits:['بیگ اور کٹس',['Kit Bags','Full Kits','Accessories']]};
 const PRESETS=[['Hand (دایاں / بایاں)','Hand','Right Hand, Left Hand'],['Size (سائز)','Size','Small, Medium, Large'],['Colour (رنگ)','Colour','Black, White'],['Weight (وزن)','Weight','2lb 8oz, 2lb 10oz']];
-let C=JSON.parse(localStorage.getItem('sa_easy')||'{}'),prods=[],data={},sha='',cur=-1,file=null,q='';
+/* ---------- schemas: every field of the old admin panel ---------- */
+const TABS=[['shop','🏏 پروڈکٹس'],['home','🏠 ہوم پیج'],['custom','✂️ کسٹم بیٹ'],['payments','💳 ادائیگی'],['settings','⚙️ ترتیبات'],['pages','📄 صفحات اور پالیسی'],['reviews','⭐ ریویوز']];
+const T=(k,l,x)=>Object.assign({k,l,t:'str'},x||{});
+const SC={
+home:{file:'home.json',def:{},f:[
+{k:'announcements',l:'اوپر کی پٹی کے پیغامات',t:'strs'},
+{k:'slides',l:'ہوم پیج کی بڑی سلائیڈز (تصویر یا ویڈیو)',t:'list',it:'سلائیڈ',sum:'title',f:[{k:'image',l:'تصویر (کمپیوٹر)',t:'media',m:'img'},{k:'mobile_image',l:'موبائل کی تصویر (لمبی)',t:'media',m:'img'},{k:'video',l:'ویڈیو (mp4، مختصر اور 15 MB سے کم) - ویڈیو ہو تو تصویر کی جگہ چلے گی',t:'media',m:'vid'},T('title','بڑا عنوان'),{k:'link',l:'لنک (مثلاً bats/)',t:'link'}]},
+{k:'collections',l:'کیٹیگری کے ڈبے (Collections)',t:'list',it:'ڈبہ',sum:'title',f:[T('title','نام'),{k:'image',l:'تصویر',t:'media',m:'img'},{k:'link',l:'لنک',t:'link'}]},
+T('trusted_title','کھلاڑیوں والے حصے کا عنوان'),
+{k:'trusted',l:'کھلاڑیوں کی تصاویر',t:'list',it:'تصویر',sum:'caption',f:[{k:'image',l:'تصویر',t:'media',m:'img'},T('caption','کیپشن')]},
+T('about_title','ہمارے بارے میں: عنوان'),{k:'about_text',l:'ہمارے بارے میں: متن',t:'text'},{k:'about_image',l:'ہمارے بارے میں: تصویر',t:'media',m:'img'},
+T('videos_title','ویڈیو والے حصے کا عنوان'),
+{k:'videos',l:'ویڈیوز / تصاویر (کھڑی 9:16 ویڈیو بہتر)',t:'list',it:'آئٹم',sum:'file',f:[{k:'file',l:'ویڈیو یا تصویر',t:'media',m:'any'}]},
+{k:'gallery',l:'گیلری پٹی (کالی پٹی)',t:'list',it:'تصویر',sum:'image',f:[{k:'image',l:'تصویر',t:'media',m:'img'}]}]},
+custom:{file:'custom.json',def:{},f:[{k:'base_price',l:'بنیادی قیمت (روپے)',t:'num'},T('note','فارم کے نیچے نوٹ'),
+{k:'grades',l:'بیٹ کے گریڈ اور اضافی قیمت (منفی بھی چلے گی)',t:'list',it:'گریڈ',sum:'name',f:[T('name','گریڈ کا نام'),{k:'add',l:'اضافہ (روپے)',t:'num'}]},
+{k:'extras',l:'اضافی چیزیں',t:'list',it:'چیز',sum:'name',f:[T('name','چیز کا نام'),{k:'price',l:'قیمت (روپے)',t:'num'}]}]},
+payments:{file:'payments.json',def:{},f:[{k:'cod',l:'کیش آن ڈیلیوری',t:'bool',d:true},T('cod_label','کیش آن ڈیلیوری کا متن'),{k:'international',l:'بیرون ملک آرڈر (واٹس ایپ پر)',t:'bool',d:true},
+{k:'card_enabled',l:'ڈیبٹ کارڈ پیمنٹ (پہلے گیٹ وے کا لنک ڈالیں)',t:'bool'},T('card_link','کارڈ پیمنٹ کا لنک (https://...)'),{k:'card_note',l:'کارڈ پیمنٹ کی ہدایت',t:'text'},{k:'instructions',l:'گاہک کو دکھائی جانے والی ہدایات',t:'text'},
+{k:'methods',l:'اکاؤنٹس (خالی والے چھپے رہیں گے)',t:'list',it:'اکاؤنٹ',sum:'type',f:[{k:'type',l:'قسم',t:'sel',o:['JazzCash','Easypaisa','Bank Account','SadaPay','NayaPay','Raast']},T('account_title','اکاؤنٹ ٹائٹل (نام)'),T('number','موبائل والیٹ / اکاؤنٹ نمبر'),T('bank_name','بینک کا نام (صرف بینک کے لیے)'),T('iban','آئی بین (اختیاری)'),{k:'enabled',l:'دکھائیں',t:'bool',d:true}]}]},
+settings:{file:'settings.json',def:{},f:[T('phone_display','فُوٹر میں فون نمبر'),T('whatsapp','واٹس ایپ نمبر (صرف ہندسے، ملک کے کوڈ کے ساتھ: 923001234567)'),T('footer_note','فُوٹر کا متن'),T('seo_title','گوگل سرچ ٹائٹل (ہوم پیج)'),{k:'seo_description',l:'گوگل سرچ تفصیل (ہوم پیج)',t:'text'},
+{k:'usd',l:'ایک روپے کے کتنے امریکی ڈالر (مثلاً 0.0036)',t:'num'},{k:'gbp',l:'ایک روپے کے کتنے پاؤنڈ (0.0027)',t:'num'},{k:'eur',l:'ایک روپے کے کتنے یورو (0.0031)',t:'num'},{k:'wholesale_note',l:'تھوک صفحے کا نوٹ',t:'text'}]},
+pages:{file:'pages.json',def:{},f:[
+{k:'track',l:'ٹریک آرڈر صفحہ',t:'obj',f:[T('title','عنوان'),T('intro','تعارف'),T('note','نیچے کا نوٹ')]},
+{k:'wholesale',l:'تھوک (Wholesale) صفحہ',t:'obj',f:[T('title','عنوان'),T('intro','تعارف')]},
+...['returns','shipping','privacy'].map((k,i)=>({k,l:['واپسی پالیسی','شپنگ پالیسی','پرائیویسی پالیسی'][i],t:'obj',f:[T('title','عنوان'),T('intro','تعارف'),{k:'body',l:'متن (## = عنوان، - = بُلٹ، خالی لائن = نیا پیراگراف)',t:'text',rows:10}]}))]},
+reviews:{file:'reviews.json',def:{reviews:[]},f:[{k:'reviews',l:'گاہکوں کی رائے (صرف اصلی گاہکوں کی)',t:'list',it:'ریویو',sum:'name',f:[T('name','گاہک کا نام'),T('city','شہر'),{k:'rating',l:'ستارے (1 سے 5)',t:'num'},{k:'text',l:'رائے',t:'text'}]}]}};
+/* ---------- core ---------- */
+let C=JSON.parse(localStorage.getItem('sa_easy')||'{}'),FILES={},tab='shop',prods=[],cur=-1,q='',dirty=false,OPEN=new Set(),PREV={},PH=[];
 const toast=(t,ms=2600)=>{const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);if(ms)toast.t=setTimeout(()=>e.style.display='none',ms)};
 const gh=(p,o={})=>fetch(`https://api.github.com/repos/${C.repo}/contents/${p}`+(o.method?'':`?ref=${C.br}&t=${Date.now()}`),Object.assign({headers:{Authorization:'Bearer '+C.tok,Accept:'application/vnd.github+json'}},o));
 const enc=s=>btoa(unescape(encodeURIComponent(s))),dec=b=>decodeURIComponent(escape(atob(b.replace(/\s/g,''))));
-const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'product';
-const img=p=>p?'../../'+String(p).replace(/^\//,''):'';
-function login(msg){$('#app').innerHTML=`<div class="login"><h2>SA Sports مینیجر میں خوش آمدید</h2><p>یہ سیٹ اپ صرف ایک بار ہوتا ہے۔</p>${msg?`<p class="err">${msg}</p>`:''}
-<label>GitHub ریپوزٹری</label><input id="l_r" dir="ltr" value="${esc(C.repo||'mianbilalakbarjanjua/SAsports')}"><label>برانچ</label><input id="l_b" dir="ltr" value="${esc(C.br||'main')}">
-<label>GitHub ٹوکن (Contents: Read and write)</label><input id="l_t" dir="ltr" type="password" value="${esc(C.tok||'')}"><br><br><button class="pri big" style="width:100%" onclick="doLogin()">اندر جائیں</button></div>`}
-function doLogin(){C={repo:$('#l_r').value.trim(),br:$('#l_b').value.trim()||'main',tok:$('#l_t').value.trim()};localStorage.setItem('sa_easy',JSON.stringify(C));load()}
-async function load(){$('#app').innerHTML='<p class="empty">لوڈ ہو رہا ہے…</p>';try{const r=await gh('products.json');if(r.status===401||r.status===403)return login('ٹوکن درست نہیں یا اجازت نہیں ہے۔');
-if(r.status===404){data={};prods=[];sha=''}else if(r.ok){const j=await r.json();sha=j.sha;data=JSON.parse(dec(j.content));prods=data.products||[]}else return login('ریپوزٹری یا برانچ کا نام غلط ہے۔')}catch(e){return login('انٹرنیٹ کا مسئلہ ہے، دوبارہ کوشش کریں۔')}main()}
-function main(){const L=prods.map((p,i)=>[p,i]).filter(([p])=>!q||(p.name||'').toLowerCase().includes(q.toLowerCase()));
-$('#app').innerHTML=`<header><h1>SA <b>Sports</b> پروڈکٹ مینیجر</h1><button onclick="localStorage.removeItem('sa_easy');C={};login()">باہر</button></header><main><div class="bar"><input id="sq" placeholder="پروڈکٹ تلاش کریں…" value="${esc(q)}" oninput="q=this.value;main();$('#sq').focus()"><button class="pri big" onclick="edit(-1)">➕ نیا پروڈکٹ</button></div>
-${L.length?`<div class="grid">${L.map(([p,i])=>`<div class="card ${p.hidden?'hid':''}" onclick="edit(${i})"><img src="${esc(img(p.image))}" alt=""><div><b>${esc(p.name)}</b>Rs. ${(+p.price||0).toLocaleString('en-PK')}<br>${p.hidden?'<span class="tag">چھپا ہوا</span>':''}${p.stock===0?'<span class="tag">ختم</span>':''}${(p.options||[]).length?'<span class="tag">آپشنز</span>':''}</div></div>`).join('')}</div>`:'<p class="empty">ابھی کوئی پروڈکٹ نہیں۔ اوپر "نیا پروڈکٹ" دبائیں۔</p>'}</main>`}
+const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'file';
+const src=p=>PREV[p]||('../../'+String(p).replace(/^\//,'')),isVid=f=>/\.(mp4|webm|mov|m4v)$/i.test(f||'');
+const b64=blob=>new Promise(r=>{const x=new FileReader;x.onload=()=>r(x.result.split(',')[1]);x.readAsDataURL(blob)});
+function login(msg){$('#app').innerHTML=`<div class="login"><h2>SA Sports مینیجر میں خوش آمدید</h2><p>یہ سیٹ اپ صرف ایک بار ہوتا ہے۔</p>${msg?`<p class="err">${msg}</p>`:''}<label>GitHub ریپوزٹری</label><input id="l_r" dir="ltr" value="${esc(C.repo||'mianbilalakbarjanjua/SAsports')}"><label>برانچ</label><input id="l_b" dir="ltr" value="${esc(C.br||'main')}"><label>GitHub ٹوکن (Contents: Read and write)</label><input id="l_t" dir="ltr" type="password" value="${esc(C.tok||'')}"><br><br><button class="pri big" style="width:100%" onclick="doLogin()">اندر جائیں</button></div>`}
+function doLogin(){C={repo:$('#l_r').value.trim(),br:$('#l_b').value.trim()||'main',tok:$('#l_t').value.trim()};localStorage.setItem('sa_easy',JSON.stringify(C));FILES={};start()}
+async function getFile(name,def){if(FILES[name])return FILES[name];const r=await gh(name);if(r.status===401||r.status===403)throw 'auth';if(r.status===404)FILES[name]={data:JSON.parse(JSON.stringify(def)),sha:''};else if(r.ok){const j=await r.json();FILES[name]={data:JSON.parse(dec(j.content)),sha:j.sha}}else throw 'bad';return FILES[name]}
+async function put(path,content,msg,s){const r=await gh(path,{method:'PUT',body:JSON.stringify({message:msg,content,branch:C.br,sha:s||undefined})});if(!r.ok)throw new Error(r.status===409?'کسی اور نے ابھی تبدیلی کی ہے۔ صفحہ ریفریش کریں۔':'محفوظ نہیں ہو سکا ('+r.status+')');return (await r.json()).content.sha}
+async function saveFile(name){const F=FILES[name];F.sha=await put(name,enc(JSON.stringify(F.data,null,2)),'Update '+name,F.sha)}
+async function start(){$('#app').innerHTML='<p class="empty">لوڈ ہو رہا ہے…</p>';try{const F=await getFile('products.json',{products:[]});F.data.products=F.data.products||[];prods=F.data.products}catch(e){return login(e==='auth'?'ٹوکن درست نہیں یا اجازت نہیں ہے۔':'ریپوزٹری یا برانچ کا نام غلط ہے، یا انٹرنیٹ کا مسئلہ ہے۔')}main()}
+async function go(t){if(dirty&&!confirm('اس صفحے کی تبدیلیاں محفوظ نہیں ہوئیں۔ پھر بھی چھوڑیں؟'))return;dirty=false;tab=t;if(t!=='shop'){try{await getFile(SC[t].file,SC[t].def)}catch(e){return toast('فائل لوڈ نہیں ہو سکی')}}main()}
+function main(){const head=`<header><h1>SA <b>Sports</b> مینیجر</h1><button onclick="localStorage.removeItem('sa_easy');C={};FILES={};login()">باہر</button></header><div class="tabs">${TABS.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('')}</div>`;
+if(tab==='shop')return shop(head);const sc=SC[tab];$('#app').innerHTML=head+`<main><div id="form">${sc.f.map(f=>fld(f,f.k)).join('')}</div></main><div class="fbar"><button class="pri big" onclick="saveTab()">💾 محفوظ کریں</button></div>`}
+/* ---------- generic form engine ---------- */
+const root=()=>FILES[SC[tab].file].data;
+function getv(p){return p.split('.').reduce((o,k)=>o==null?o:o[k],root())}
+function setv(p,v){const a=p.split('.');let o=root();for(let i=0;i<a.length-1;i++){if(o[a[i]]==null)o[a[i]]=/^\d+$/.test(a[i+1])?[]:{};o=o[a[i]]}if(v===undefined)delete o[a[a.length-1]];else o[a[a.length-1]]=v;dirty=true}
+function fld(f,p){const v=getv(p),L=`<span>${f.l}</span>`;
+if(f.t==='str'||f.t==='link')return `<label class="f">${L}<input ${f.t==='link'?'list="links"':''} dir="auto" value="${esc(v)}" oninput="setv('${p}',this.value)"></label>`;
+if(f.t==='text')return `<label class="f">${L}<textarea rows="${f.rows||3}" oninput="setv('${p}',this.value)">${esc(v)}</textarea></label>`;
+if(f.t==='num')return `<label class="f">${L}<input type="number" step="any" inputmode="decimal" value="${v==null?'':v}" oninput="setv('${p}',this.value===''?undefined:+this.value)"></label>`;
+if(f.t==='bool')return `<label class="f chk"><label><input type="checkbox" ${(v==null?f.d:v)?'checked':''} onchange="setv('${p}',this.checked)">${f.l}</label></label>`;
+if(f.t==='sel')return `<label class="f">${L}<select onchange="setv('${p}',this.value)">${f.o.map(o=>`<option ${(v||f.o[0])===o?'selected':''}>${o}</option>`).join('')}</select></label>`;
+if(f.t==='obj')return `<div class="sec2"><h3>${f.l}</h3><div class="in" style="padding:0">${f.f.map(x=>fld(x,p+'.'+x.k)).join('')}</div></div>`;
+if(f.t==='media')return `<div class="f">${L}<div class="med">${v?(isVid(v)?`<video src="${esc(src(v))}" controls muted></video>`:`<img src="${esc(src(v))}" alt="">`):'<small>ابھی کچھ نہیں</small>'}<br><button type="button" onclick="this.nextElementSibling.click()">${f.m==='vid'?'🎬 ویڈیو چنیں':f.m==='any'?'📷/🎬 تصویر یا ویڈیو چنیں':'📷 تصویر چنیں'}</button><input type="file" hidden accept="${f.m==='vid'?'video/*':f.m==='any'?'image/*,video/*':'image/*'}" onchange="upl('${p}',this.files[0])">${v?` <button type="button" class="dan" onclick="setv('${p}',undefined);rd()">✕ ہٹائیں</button>`:''}</div></div>`;
+if(f.t==='strs'){const a=v||[];return `<div class="sec2"><h3>${f.l}</h3>${a.map((x,i)=>`<div class="ir"><input dir="auto" value="${esc(x)}" oninput="setv('${p}.${i}',this.value)"><button class="sm" onclick="mv('${p}',${i},-1)">▲</button><button class="sm" onclick="mv('${p}',${i},1)">▼</button><button class="sm dan" onclick="rm('${p}',${i})">✕</button></div>`).join('')}<button onclick="add('${p}',-1)">➕ نیا شامل کریں</button></div>`}
+if(f.t==='list'){const a=v||[];return `<div class="sec2"><h3>${f.l}</h3>${a.map((x,i)=>{const q=p+'.'+i,s=x&&x[f.sum];return `<details class="li" ${OPEN.has(q)?'open':''} ontoggle="this.open?OPEN.add('${q}'):OPEN.delete('${q}')"><summary><span class="nm">${f.it} ${i+1}${s?': '+esc(String(s).split('/').pop()):''}</span><button class="sm" onclick="event.preventDefault();mv('${p}',${i},-1)">▲</button><button class="sm" onclick="event.preventDefault();mv('${p}',${i},1)">▼</button><button class="sm dan" onclick="event.preventDefault();if(confirm('مٹانا ہے؟'))rm('${p}',${i})">✕</button></summary><div class="bd">${f.f.map(y=>fld(y,q+'.'+y.k)).join('')}</div></details>`}).join('')}<button class="pri" onclick="add('${p}',-1)">➕ نیا ${f.it}</button></div>`}return ''}
+function rd(){const y=scrollY;$('#form').innerHTML=SC[tab].f.map(f=>fld(f,f.k)).join('');scrollTo(0,y)}
+function findF(p){const a=p.split('.').filter(k=>!/^\d+$/.test(k));let fs=SC[tab].f,f;for(const k of a){f=fs.find(x=>x.k===k);if(!f)return null;fs=f.f||[]}return f}
+function add(p){let a=getv(p);if(!Array.isArray(a)){setv(p,[]);a=getv(p)}const f=findF(p);if(f.t==='strs')a.push('');else{const o={};(f.f||[]).forEach(x=>{if(x.d!==undefined)o[x.k]=x.d});a.push(o);OPEN.add(p+'.'+(a.length-1))}dirty=true;rd()}
+function rm(p,i){getv(p).splice(i,1);OPEN.clear();dirty=true;rd()}
+function mv(p,i,d){const a=getv(p),j=i+d;if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];OPEN.clear();dirty=true;rd()}
+async function toBlob(f,mx){if(/svg|gif/.test(f.type))return{blob:f,ext:f.type.includes('svg')?'svg':'gif'};const b=await createImageBitmap(f),s=Math.min(1,mx/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=Math.round(b.width*s);c.height=Math.round(b.height*s);c.getContext('2d').drawImage(b,0,0,c.width,c.height);return{blob:await new Promise(r=>c.toBlob(r,'image/webp',.9)),ext:'webp'}}
+async function up(file,base){let blob=file,ext;if(file.type.startsWith('video/')){if(file.size>60*1024*1024)throw new Error('ویڈیو بہت بڑی ہے (60 MB سے کم کریں)');ext=(file.name.split('.').pop()||'mp4').toLowerCase()}else{const r=await toBlob(file,1800);blob=r.blob;ext=r.ext}
+const path='img/'+slug(base||file.name.replace(/\.[^.]+$/,''))+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)+'.'+ext;await put(path,await b64(blob),'Upload '+path);PREV[path]=URL.createObjectURL(blob);return path}
+async function upl(p,file){if(!file)return;toast('اپلوڈ ہو رہا ہے… انتظار کریں',0);try{setv(p,await up(file,file.name.replace(/\.[^.]+$/,'')));toast('اپلوڈ ہو گیا ✔ (محفوظ کرنا نہ بھولیں)');rd()}catch(e){toast(e.message||'اپلوڈ نہیں ہو سکا',6000)}}
+async function saveTab(){toast('محفوظ ہو رہا ہے…',0);try{await saveFile(SC[tab].file);dirty=false;toast('✔ محفوظ ہو گیا۔ سائٹ پر ایک دو منٹ میں نظر آئے گا۔',5000)}catch(e){toast(e.message||'مسئلہ آیا',6000)}}
+/* ---------- products ---------- */
+function shop(head){const L=prods.map((p,i)=>[p,i]).filter(([p])=>!q||(p.name||'').toLowerCase().includes(q.toLowerCase()));
+$('#app').innerHTML=head+`<main><div class="bar"><input id="sq" placeholder="پروڈکٹ تلاش کریں…" value="${esc(q)}" oninput="q=this.value;shop(document.querySelector('header').outerHTML+document.querySelector('.tabs').outerHTML);$('#sq').focus()"><button class="pri big" onclick="edit(-1)">➕ نیا پروڈکٹ</button></div>${L.length?`<div class="grid">${L.map(([p,i])=>`<div class="card ${p.hidden?'hid':''}" onclick="edit(${i})"><img src="${esc(src(p.image||''))}" alt=""><div><b>${esc(p.name)}</b>Rs. ${(+p.price||0).toLocaleString('en-PK')}<br>${p.hidden?'<span class="tag">چھپا ہوا</span>':''}${p.stock===0?'<span class="tag">ختم</span>':''}${(p.options||[]).length?'<span class="tag">آپشنز</span>':''}${(p.gallery||[]).length?'<span class="tag">+'+p.gallery.length+' تصاویر</span>':''}${q?'':`<br><button class="sm" onclick="event.stopPropagation();mvp(${i},-1)">‹ آگے</button> <button class="sm" onclick="event.stopPropagation();mvp(${i},1)">پیچھے ›</button>`}</div></div>`).join('')}</div>`:'<p class="empty">ابھی کوئی پروڈکٹ نہیں۔ اوپر "نیا پروڈکٹ" دبائیں۔</p>'}</main>`}
+async function mvp(i,d){const j=i+d;if(j<0||j>=prods.length)return;[prods[i],prods[j]]=[prods[j],prods[i]];toast('ترتیب محفوظ ہو رہی ہے…',0);try{await saveFile('products.json');main();toast('✔ ترتیب بدل گئی')}catch(e){[prods[i],prods[j]]=[prods[j],prods[i]];toast(e.message,5000)}}
 const F=(l,h,s)=>`<label class="f"><span>${l}${s?` <small>${s}</small>`:''}</span>${h}</label>`;
-function edit(i){cur=i;file=null;const p=i<0?{category:'bats',sub:'Premium',options:[]}:prods[i],o=(p.options||[]).map(x=>({n:x.name,v:(x.values||[]).join(', ')}));window.OP=o;
+function phHTML(){return PH.map((x,k)=>`<div class="${k?'':'m'}"><img src="${esc(x.url)}"><div class="mv"><button type="button" onclick="phm(${k},-1)">‹</button><button type="button" onclick="phm(${k},1)">›</button></div>${k?`<button type="button" onclick="phmain(${k})">اصل بنائیں</button>`:'<b>اصل تصویر</b><br>'}<button type="button" class="dan" onclick="PH.splice(${k},1);$('#phs').innerHTML=phHTML()">✕</button></div>`).join('')}
+function phm(k,d){const j=k+d;if(j<0||j>=PH.length)return;[PH[k],PH[j]]=[PH[j],PH[k]];$('#phs').innerHTML=phHTML()}
+function phmain(k){PH.unshift(PH.splice(k,1)[0]);$('#phs').innerHTML=phHTML()}
+async function pickMany(fs){toast('تصاویر تیار ہو رہی ہیں…',0);for(const f of fs){try{const r=await toBlob(f,1800);PH.push({blob:r.blob,ext:r.ext,url:URL.createObjectURL(r.blob)})}catch(e){toast('ایک تصویر نہیں کھل سکی')}}$('#phs').innerHTML=phHTML();toast('تصاویر تیار ہیں ✔')}
+function edit(i){cur=i;const p=i<0?{category:'bats',sub:'Premium',options:[]}:prods[i],o=(p.options||[]).map(x=>({n:x.name,v:(x.values||[]).join(', ')}));window.OP=o;
+PH=[p.image].concat((p.gallery||[]).map(g=>typeof g==='string'?g:g&&g.image)).filter(Boolean).map(s=>({path:s,url:src(s)}));
 $('#dlg').innerHTML=`<div class="in"><h2 style="margin:0">${i<0?'نیا پروڈکٹ':'پروڈکٹ میں تبدیلی'}</h2>
-<div class="pic" onclick="$('#e_file').click()"><img id="e_img" src="${esc(img(p.image))}" ${p.image?'':'hidden'}><b>📷 تصویر چنیں یا بدلیں</b><br><small>تصویر خود بخود صاف (HD) اور ہلکی ہو جائے گی</small></div><input id="e_file" type="file" accept="image/*" hidden onchange="pick(this.files[0])">
+<div class="f"><span>تصاویر <small>(جتنی چاہیں، پہلی تصویر اصل ہوگی)</small></span><div class="ph" id="phs">${phHTML()}</div><div class="pic" onclick="$('#e_file').click()" style="margin-top:10px"><b>📷 تصاویر چنیں (ایک ساتھ کئی)</b><br><small>تصویر خود بخود صاف (HD) اور ہلکی ہو جائے گی</small></div></div>
+<input id="e_file" type="file" accept="image/*" multiple hidden onchange="pickMany([...this.files]);this.value=''">
 ${F('پروڈکٹ کا نام','<input id="e_name" value="'+esc(p.name||'')+'" placeholder="SA PRO Batting Pad">')}
 <div class="two">${F('کیٹیگری','<select id="e_cat" onchange="subs()">'+Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${p.category===k?'selected':''}>${v[0]}</option>`).join('')+'</select>')}${F('ذیلی کیٹیگری','<select id="e_sub"></select>')}</div>
 <div class="two">${F('قیمت (روپے)','<input id="e_price" type="number" inputmode="numeric" value="'+(p.price||'')+'">')}${F('پرانی قیمت','<input id="e_old" type="number" inputmode="numeric" value="'+(p.old_price||'')+'">','(اختیاری، سیل کا نشان آئے گا)')}</div>
 <div class="two">${F('سائز','<input id="e_size" value="'+esc(p.size||'')+'" placeholder="Full Size / 26 inch">')}${F('سٹاک','<input id="e_stock" type="number" inputmode="numeric" value="'+(p.stock==null?'':p.stock)+'">','(خالی = نہ دکھائیں، 0 = ختم)')}</div>
-${F('خاص باتیں','<textarea id="e_feat" rows="4" placeholder="Sheep leather&#10;Full protection&#10;International standards">'+esc((p.features||[]).join('\n'))+'</textarea>','(ہر بات نئی لائن میں)')}
-${F('تفصیل','<textarea id="e_desc" rows="2">'+esc(p.description||'')+'</textarea>')}
+${F('خاص باتیں','<textarea id="e_feat" rows="4" placeholder="Sheep leather&#10;Full protection">'+esc((p.features||[]).join('\n'))+'</textarea>','(ہر بات نئی لائن میں)')}
+${F('تفصیل','<textarea id="e_desc" rows="3">'+esc(p.description||'')+'</textarea>')}
 <div class="f"><span>گاہک کے آپشنز <small>(جیسے دایاں / بایاں)</small></span><div id="opts"></div><div style="display:flex;gap:6px;flex-wrap:wrap">${PRESETS.map((x,k)=>`<button type="button" onclick="addOpt(${k})">+ ${x[0]}</button>`).join('')}<button type="button" onclick="addOpt(-1)">+ اپنا آپشن</button></div></div>
 <div class="chk"><label><input type="checkbox" id="e_best" ${p.bestseller?'checked':''}>بیسٹ سیلر</label><label><input type="checkbox" id="e_new" ${p.new_launch?'checked':''}>نئی لانچ</label><label><input type="checkbox" id="e_hid" ${p.hidden?'checked':''}>سائٹ سے چھپائیں</label></div></div>
-<div class="foot"><button class="pri big" onclick="save()">💾 محفوظ کریں</button><button onclick="$('#dlg').close()">بند</button>${i>=0?'<button class="dan" onclick="del()">🗑 مٹائیں</button>':''}</div>`;
-subs(p.sub);drawOpts();$('#dlg').showModal()}
+<div class="foot"><button class="pri big" onclick="save()">💾 محفوظ کریں</button><button onclick="$('#dlg').close()">بند</button>${i>=0?'<button class="dan" onclick="del()">🗑 مٹائیں</button>':''}</div>`;subs(p.sub);drawOpts();$('#dlg').showModal()}
 function subs(v){const c=$('#e_cat').value;$('#e_sub').innerHTML=CATS[c][1].map(s=>`<option ${s===v?'selected':''}>${s}</option>`).join('')}
 function drawOpts(){$('#opts').innerHTML=OP.map((x,k)=>`<div class="orow"><input dir="ltr" placeholder="Hand" value="${esc(x.n)}" oninput="OP[${k}].n=this.value"><input dir="ltr" placeholder="Left, Right" value="${esc(x.v)}" oninput="OP[${k}].v=this.value"><button type="button" class="dan" onclick="OP.splice(${k},1);drawOpts()">✕</button></div>`).join('')}
 function addOpt(k){OP.push(k<0?{n:'',v:''}:{n:PRESETS[k][1],v:PRESETS[k][2]});drawOpts()}
-async function pick(f){if(!f)return;toast('تصویر تیار ہو رہی ہے…',0);try{const b=await createImageBitmap(f),s=Math.min(1,1800/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=Math.round(b.width*s);c.height=Math.round(b.height*s);c.getContext('2d').drawImage(b,0,0,c.width,c.height);
-file=await new Promise(r=>c.toBlob(r,'image/webp',.9));$('#e_img').src=URL.createObjectURL(file);$('#e_img').hidden=false;toast('تصویر تیار ہے ✔')}catch(e){toast('یہ تصویر نہیں کھل سکی، دوسری چنیں۔')}}
-const b64=blob=>new Promise(r=>{const x=new FileReader;x.onload=()=>r(x.result.split(',')[1]);x.readAsDataURL(blob)});
-async function put(path,content,msg,s){const r=await gh(path,{method:'PUT',body:JSON.stringify({message:msg,content,branch:C.br,sha:s||undefined})});if(!r.ok)throw new Error(r.status===409?'کسی اور نے ابھی تبدیلی کی ہے۔ صفحہ ریفریش کریں۔':'محفوظ نہیں ہو سکا ('+r.status+')');return (await r.json()).content.sha}
-async function push(msg){const o=Object.assign({},data,{products:prods});sha=await put('products.json',enc(JSON.stringify(o,null,2)),msg,sha)}
-async function save(){const n=$('#e_name').value.trim(),pr=+$('#e_price').value;if(!n)return toast('پروڈکٹ کا نام لکھیں');if(!(pr>0))return toast('قیمت لکھیں');
-const old=cur<0?{}:prods[cur];if(!file&&!old.image)return toast('تصویر چنیں');toast('محفوظ ہو رہا ہے…',0);
-try{let im=old.image;if(file){im='/img/'+slug(n)+'-'+Date.now().toString(36)+'.webp';await put(im.slice(1),await b64(file),'Add photo '+n)}
-const p=Object.assign({},old,{name:n,category:$('#e_cat').value,sub:$('#e_sub').value,price:pr,image:im,description:$('#e_desc').value.trim(),size:$('#e_size').value.trim(),
-features:$('#e_feat').value.split('\n').map(x=>x.trim()).filter(Boolean),options:OP.filter(x=>x.n.trim()&&x.v.trim()).map(x=>({name:x.n.trim(),values:x.v.split(/[,،]/).map(z=>z.trim()).filter(Boolean)})),
-bestseller:$('#e_best').checked,new_launch:$('#e_new').checked,hidden:$('#e_hid').checked});
+async function save(){const n=$('#e_name').value.trim(),pr=+$('#e_price').value;if(!n)return toast('پروڈکٹ کا نام لکھیں');if(!(pr>0))return toast('قیمت لکھیں');if(!PH.length)return toast('کم از کم ایک تصویر چنیں');
+const old=cur<0?{}:prods[cur];toast('محفوظ ہو رہا ہے…',0);
+try{let k=0;for(const x of PH){if(x.blob){toast('تصویر اپلوڈ ہو رہی ہے '+(++k)+'…',0);x.path='img/'+slug(n)+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)+'.'+x.ext;await put(x.path,await b64(x.blob),'Add photo '+n);delete x.blob}}
+const ps=PH.map(x=>'/'+x.path.replace(/^\//,'')).map(s=>s);
+const p=Object.assign({},old,{name:n,category:$('#e_cat').value,sub:$('#e_sub').value,price:pr,image:ps[0],description:$('#e_desc').value.trim(),size:$('#e_size').value.trim(),features:$('#e_feat').value.split('\n').map(x=>x.trim()).filter(Boolean),options:OP.filter(x=>x.n.trim()&&x.v.trim()).map(x=>({name:x.n.trim(),values:x.v.split(/[,،]/).map(z=>z.trim()).filter(Boolean)})),bestseller:$('#e_best').checked,new_launch:$('#e_new').checked,hidden:$('#e_hid').checked});
+if(ps.length>1)p.gallery=ps.slice(1);else delete p.gallery;
 const od=+$('#e_old').value,st=$('#e_stock').value;if(od>0)p.old_price=od;else delete p.old_price;if(st!=='')p.stock=Math.max(0,+st);else delete p.stock;
-if(cur<0)prods.unshift(p);else prods[cur]=p;await push((cur<0?'Add ':'Update ')+n);$('#dlg').close();main();toast('✔ محفوظ ہو گیا۔ سائٹ پر ایک دو منٹ میں نظر آئے گا۔',5000)}catch(e){toast(e.message||'مسئلہ آیا، دوبارہ کوشش کریں۔',6000)}}
-async function del(){if(!confirm('کیا واقعی یہ پروڈکٹ مٹانا ہے؟'))return;const keep=prods[cur];prods.splice(cur,1);toast('مٹایا جا رہا ہے…',0);try{await push('Delete '+(keep.name||''));$('#dlg').close();main();toast('پروڈکٹ مٹا دیا گیا۔')}catch(e){prods.splice(cur,0,keep);toast(e.message,6000)}}
-C.tok?load():login();
+if(cur<0)prods.unshift(p);else prods[cur]=p;await saveFile('products.json');$('#dlg').close();main();toast('✔ محفوظ ہو گیا۔ سائٹ پر ایک دو منٹ میں نظر آئے گا۔',5000)}catch(e){toast(e.message||'مسئلہ آیا، دوبارہ کوشش کریں۔',6000)}}
+async function del(){if(!confirm('کیا واقعی یہ پروڈکٹ مٹانا ہے؟'))return;const keep=prods[cur];prods.splice(cur,1);toast('مٹایا جا رہا ہے…',0);try{await saveFile('products.json');$('#dlg').close();main();toast('پروڈکٹ مٹا دیا گیا۔')}catch(e){prods.splice(cur,0,keep);toast(e.message,6000)}}
+C.tok?start():login();
 </script></body></html>
