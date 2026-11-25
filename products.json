@@ -506,15 +506,6 @@
     {
       "category": "kits",
       "sub": "Kit Bags",
-      "image": "/img/bag-player.webp",
-      "name": "SA Kit Bag, Player Edition",
-      "price": 9500,
-      "description": "Roomy backpack-style bag with separate bat and shoe compartments.",
-      "hidden": false
-    },
-    {
-      "category": "kits",
-      "sub": "Kit Bags",
       "image": "/img/bag-red.webp",
       "name": "SA Complete Red Kit Set",
       "price": 48500,
