@@ -1,1 +1,10 @@
-{"reviews": []}
+{
+  "reviews": [
+    {
+      "name": "Muhammad Iqbal Akbar",
+      "city": "Jhang",
+      "rating": 5,
+      "text": "Very Welcoming Staff and Very afforable prices"
+    }
+  ]
+}
