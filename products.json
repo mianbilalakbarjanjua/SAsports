@@ -489,15 +489,6 @@
     },
     {
       "category": "protect",
-      "sub": "Helmets",
-      "image": "/img/helmet.webp",
-      "name": "SA Helmet, Steel Grille",
-      "price": 5500,
-      "description": "Tough shell, padded interior and a steel grille with clear sight lines.",
-      "hidden": false
-    },
-    {
-      "category": "protect",
       "sub": "Guards",
       "image": "/img/sa-thigh-guard-white-mwwlx0cbkrs.webp",
       "name": "SA Thigh Guard, White",
