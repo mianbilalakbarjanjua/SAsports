@@ -109,12 +109,46 @@
     },
     {
       "category": "pads",
-      "sub": "Classic",
-      "image": "/img/pads-black.webp",
-      "name": "SA Pro Pads, Black",
-      "price": 5800,
+      "sub": "Colour",
+      "image": "/img/sa-pro-colour-pads-black-mwwlgzd3ix4.webp",
+      "name": "SA Pro Colour Pads, Black",
+      "price": 6500,
       "description": "Lightweight, high-density foam with a contoured fit and secure straps.",
-      "hidden": false
+      "hidden": false,
+      "size": "",
+      "features": [
+        "SA PRO BATTING PAD",
+        "Pro edition",
+        "International standards",
+        "SIZE : Standard ( 26 inch )",
+        "Right hand & left hand",
+        "Full protection"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        },
+        {
+          "name": "Colour",
+          "values": [
+            "Black",
+            "White",
+            "Red",
+            "Royal Blue"
+          ]
+        }
+      ],
+      "bestseller": false,
+      "new_launch": false,
+      "gallery": [
+        "/img/sa-pro-colour-pads-black-mwwlh1c5fh3.webp",
+        "/img/sa-pro-colour-pads-black-mwwlh35lb6m.webp"
+      ],
+      "old_price": 8000
     },
     {
       "category": "pads",
