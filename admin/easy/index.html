@@ -1,0 +1,82 @@
+<!doctype html><html lang="ur" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>SA Sports پروڈکٹ مینیجر</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--g:#c9a227;--k:#111;--bg:#f4f4f2;--r:16px}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font:500 16px/1.7 'Noto Sans Arabic',system-ui,sans-serif;color:var(--k)}
+header{background:var(--k);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:5}
+header h1{margin:0;font-size:20px;flex:1}header h1 b{color:var(--g)}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:11px 20px;background:#e6e6e2;color:var(--k);font-weight:700}
+.pri{background:var(--g);color:#000}.dan{background:#fde8e8;color:#b00020}.big{padding:15px 26px;font-size:18px}
+main{max-width:1100px;margin:0 auto;padding:18px}
+.bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}.bar input{flex:1;min-width:180px}
+input,select,textarea{width:100%;font:inherit;padding:12px 14px;border:2px solid #d9d9d4;border-radius:12px;background:#fff}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--g)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.card{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:0 2px 10px #0001;cursor:pointer;transition:transform .15s}.card:hover{transform:translateY(-3px)}
+.card img{width:100%;aspect-ratio:1;object-fit:contain;background:#f0f0ee;display:block}.card div{padding:10px 14px}.card b{display:block}
+.tag{display:inline-block;font-size:12px;padding:0 10px;border-radius:99px;background:#eee;margin-inline-end:4px}.hid{opacity:.45}
+.login{max-width:460px;margin:8vh auto;background:#fff;padding:26px;border-radius:var(--r);box-shadow:0 4px 24px #0002}.login label{display:block;margin-top:12px;font-weight:700}
+dialog{border:0;border-radius:20px;padding:0;width:min(680px,96vw);max-height:94vh}dialog::backdrop{background:#000a}
+.in{padding:20px;display:grid;gap:14px}.f span{display:block;font-weight:700;margin-bottom:4px}.f small{color:#777;font-weight:400}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pic{border:3px dashed #cfcfc8;border-radius:var(--r);padding:12px;text-align:center;cursor:pointer;background:#fafaf8}.pic img{max-width:100%;max-height:260px;display:block;margin:0 auto 8px;border-radius:10px}
+.orow{display:grid;grid-template-columns:1fr 2fr auto;gap:8px;margin-bottom:8px}
+.chk{display:flex;gap:18px;flex-wrap:wrap}.chk label{display:flex;gap:8px;align-items:center;font-weight:600}.chk input{width:22px;height:22px}
+.foot{position:sticky;bottom:0;background:#fff;padding:14px 20px;display:flex;gap:10px;border-top:1px solid #eee}.foot .pri{flex:1}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:12px 22px;border-radius:99px;display:none;z-index:99;max-width:92vw}
+.empty{text-align:center;padding:60px 10px;color:#777}.err{color:#b00020;font-weight:700}
+@media(max-width:520px){.two,.orow{grid-template-columns:1fr}}
+</style></head><body>
+<div id="app"></div><dialog id="dlg"></dialog><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const CATS={bats:['بلے (Bats)',['Premium','Classic']],pads:['پیڈز (Pads)',['Classic','Colour','Limited']],gloves:['گلوز (Gloves)',['Wicketkeeping','Batting']],balls:['گیندیں (Balls)',['Match','Practice']],protect:['ہیلمٹ اور گارڈز',['Helmets','Guards']],kits:['بیگ اور کٹس',['Kit Bags','Full Kits','Accessories']]};
+const PRESETS=[['Hand (دایاں / بایاں)','Hand','Right Hand, Left Hand'],['Size (سائز)','Size','Small, Medium, Large'],['Colour (رنگ)','Colour','Black, White'],['Weight (وزن)','Weight','2lb 8oz, 2lb 10oz']];
+let C=JSON.parse(localStorage.getItem('sa_easy')||'{}'),prods=[],data={},sha='',cur=-1,file=null,q='';
+const toast=(t,ms=2600)=>{const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);if(ms)toast.t=setTimeout(()=>e.style.display='none',ms)};
+const gh=(p,o={})=>fetch(`https://api.github.com/repos/${C.repo}/contents/${p}`+(o.method?'':`?ref=${C.br}&t=${Date.now()}`),Object.assign({headers:{Authorization:'Bearer '+C.tok,Accept:'application/vnd.github+json'}},o));
+const enc=s=>btoa(unescape(encodeURIComponent(s))),dec=b=>decodeURIComponent(escape(atob(b.replace(/\s/g,''))));
+const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'product';
+const img=p=>p?'../../'+String(p).replace(/^\//,''):'';
+function login(msg){$('#app').innerHTML=`<div class="login"><h2>SA Sports مینیجر میں خوش آمدید</h2><p>یہ سیٹ اپ صرف ایک بار ہوتا ہے۔</p>${msg?`<p class="err">${msg}</p>`:''}
+<label>GitHub ریپوزٹری</label><input id="l_r" dir="ltr" value="${esc(C.repo||'mianbilalakbarjanjua/SAsports')}"><label>برانچ</label><input id="l_b" dir="ltr" value="${esc(C.br||'main')}">
+<label>GitHub ٹوکن (Contents: Read and write)</label><input id="l_t" dir="ltr" type="password" value="${esc(C.tok||'')}"><br><br><button class="pri big" style="width:100%" onclick="doLogin()">اندر جائیں</button></div>`}
+function doLogin(){C={repo:$('#l_r').value.trim(),br:$('#l_b').value.trim()||'main',tok:$('#l_t').value.trim()};localStorage.setItem('sa_easy',JSON.stringify(C));load()}
+async function load(){$('#app').innerHTML='<p class="empty">لوڈ ہو رہا ہے…</p>';try{const r=await gh('products.json');if(r.status===401||r.status===403)return login('ٹوکن درست نہیں یا اجازت نہیں ہے۔');
+if(r.status===404){data={};prods=[];sha=''}else if(r.ok){const j=await r.json();sha=j.sha;data=JSON.parse(dec(j.content));prods=data.products||[]}else return login('ریپوزٹری یا برانچ کا نام غلط ہے۔')}catch(e){return login('انٹرنیٹ کا مسئلہ ہے، دوبارہ کوشش کریں۔')}main()}
+function main(){const L=prods.map((p,i)=>[p,i]).filter(([p])=>!q||(p.name||'').toLowerCase().includes(q.toLowerCase()));
+$('#app').innerHTML=`<header><h1>SA <b>Sports</b> پروڈکٹ مینیجر</h1><button onclick="localStorage.removeItem('sa_easy');C={};login()">باہر</button></header><main><div class="bar"><input id="sq" placeholder="پروڈکٹ تلاش کریں…" value="${esc(q)}" oninput="q=this.value;main();$('#sq').focus()"><button class="pri big" onclick="edit(-1)">➕ نیا پروڈکٹ</button></div>
+${L.length?`<div class="grid">${L.map(([p,i])=>`<div class="card ${p.hidden?'hid':''}" onclick="edit(${i})"><img src="${esc(img(p.image))}" alt=""><div><b>${esc(p.name)}</b>Rs. ${(+p.price||0).toLocaleString('en-PK')}<br>${p.hidden?'<span class="tag">چھپا ہوا</span>':''}${p.stock===0?'<span class="tag">ختم</span>':''}${(p.options||[]).length?'<span class="tag">آپشنز</span>':''}</div></div>`).join('')}</div>`:'<p class="empty">ابھی کوئی پروڈکٹ نہیں۔ اوپر "نیا پروڈکٹ" دبائیں۔</p>'}</main>`}
+const F=(l,h,s)=>`<label class="f"><span>${l}${s?` <small>${s}</small>`:''}</span>${h}</label>`;
+function edit(i){cur=i;file=null;const p=i<0?{category:'bats',sub:'Premium',options:[]}:prods[i],o=(p.options||[]).map(x=>({n:x.name,v:(x.values||[]).join(', ')}));window.OP=o;
+$('#dlg').innerHTML=`<div class="in"><h2 style="margin:0">${i<0?'نیا پروڈکٹ':'پروڈکٹ میں تبدیلی'}</h2>
+<div class="pic" onclick="$('#e_file').click()"><img id="e_img" src="${esc(img(p.image))}" ${p.image?'':'hidden'}><b>📷 تصویر چنیں یا بدلیں</b><br><small>تصویر خود بخود صاف (HD) اور ہلکی ہو جائے گی</small></div><input id="e_file" type="file" accept="image/*" hidden onchange="pick(this.files[0])">
+${F('پروڈکٹ کا نام','<input id="e_name" value="'+esc(p.name||'')+'" placeholder="SA PRO Batting Pad">')}
+<div class="two">${F('کیٹیگری','<select id="e_cat" onchange="subs()">'+Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${p.category===k?'selected':''}>${v[0]}</option>`).join('')+'</select>')}${F('ذیلی کیٹیگری','<select id="e_sub"></select>')}</div>
+<div class="two">${F('قیمت (روپے)','<input id="e_price" type="number" inputmode="numeric" value="'+(p.price||'')+'">')}${F('پرانی قیمت','<input id="e_old" type="number" inputmode="numeric" value="'+(p.old_price||'')+'">','(اختیاری، سیل کا نشان آئے گا)')}</div>
+<div class="two">${F('سائز','<input id="e_size" value="'+esc(p.size||'')+'" placeholder="Full Size / 26 inch">')}${F('سٹاک','<input id="e_stock" type="number" inputmode="numeric" value="'+(p.stock==null?'':p.stock)+'">','(خالی = نہ دکھائیں، 0 = ختم)')}</div>
+${F('خاص باتیں','<textarea id="e_feat" rows="4" placeholder="Sheep leather&#10;Full protection&#10;International standards">'+esc((p.features||[]).join('\n'))+'</textarea>','(ہر بات نئی لائن میں)')}
+${F('تفصیل','<textarea id="e_desc" rows="2">'+esc(p.description||'')+'</textarea>')}
+<div class="f"><span>گاہک کے آپشنز <small>(جیسے دایاں / بایاں)</small></span><div id="opts"></div><div style="display:flex;gap:6px;flex-wrap:wrap">${PRESETS.map((x,k)=>`<button type="button" onclick="addOpt(${k})">+ ${x[0]}</button>`).join('')}<button type="button" onclick="addOpt(-1)">+ اپنا آپشن</button></div></div>
+<div class="chk"><label><input type="checkbox" id="e_best" ${p.bestseller?'checked':''}>بیسٹ سیلر</label><label><input type="checkbox" id="e_new" ${p.new_launch?'checked':''}>نئی لانچ</label><label><input type="checkbox" id="e_hid" ${p.hidden?'checked':''}>سائٹ سے چھپائیں</label></div></div>
+<div class="foot"><button class="pri big" onclick="save()">💾 محفوظ کریں</button><button onclick="$('#dlg').close()">بند</button>${i>=0?'<button class="dan" onclick="del()">🗑 مٹائیں</button>':''}</div>`;
+subs(p.sub);drawOpts();$('#dlg').showModal()}
+function subs(v){const c=$('#e_cat').value;$('#e_sub').innerHTML=CATS[c][1].map(s=>`<option ${s===v?'selected':''}>${s}</option>`).join('')}
+function drawOpts(){$('#opts').innerHTML=OP.map((x,k)=>`<div class="orow"><input dir="ltr" placeholder="Hand" value="${esc(x.n)}" oninput="OP[${k}].n=this.value"><input dir="ltr" placeholder="Left, Right" value="${esc(x.v)}" oninput="OP[${k}].v=this.value"><button type="button" class="dan" onclick="OP.splice(${k},1);drawOpts()">✕</button></div>`).join('')}
+function addOpt(k){OP.push(k<0?{n:'',v:''}:{n:PRESETS[k][1],v:PRESETS[k][2]});drawOpts()}
+async function pick(f){if(!f)return;toast('تصویر تیار ہو رہی ہے…',0);try{const b=await createImageBitmap(f),s=Math.min(1,1800/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=Math.round(b.width*s);c.height=Math.round(b.height*s);c.getContext('2d').drawImage(b,0,0,c.width,c.height);
+file=await new Promise(r=>c.toBlob(r,'image/webp',.9));$('#e_img').src=URL.createObjectURL(file);$('#e_img').hidden=false;toast('تصویر تیار ہے ✔')}catch(e){toast('یہ تصویر نہیں کھل سکی، دوسری چنیں۔')}}
+const b64=blob=>new Promise(r=>{const x=new FileReader;x.onload=()=>r(x.result.split(',')[1]);x.readAsDataURL(blob)});
+async function put(path,content,msg,s){const r=await gh(path,{method:'PUT',body:JSON.stringify({message:msg,content,branch:C.br,sha:s||undefined})});if(!r.ok)throw new Error(r.status===409?'کسی اور نے ابھی تبدیلی کی ہے۔ صفحہ ریفریش کریں۔':'محفوظ نہیں ہو سکا ('+r.status+')');return (await r.json()).content.sha}
+async function push(msg){const o=Object.assign({},data,{products:prods});sha=await put('products.json',enc(JSON.stringify(o,null,2)),msg,sha)}
+async function save(){const n=$('#e_name').value.trim(),pr=+$('#e_price').value;if(!n)return toast('پروڈکٹ کا نام لکھیں');if(!(pr>0))return toast('قیمت لکھیں');
+const old=cur<0?{}:prods[cur];if(!file&&!old.image)return toast('تصویر چنیں');toast('محفوظ ہو رہا ہے…',0);
+try{let im=old.image;if(file){im='/img/'+slug(n)+'-'+Date.now().toString(36)+'.webp';await put(im.slice(1),await b64(file),'Add photo '+n)}
+const p=Object.assign({},old,{name:n,category:$('#e_cat').value,sub:$('#e_sub').value,price:pr,image:im,description:$('#e_desc').value.trim(),size:$('#e_size').value.trim(),
+features:$('#e_feat').value.split('\n').map(x=>x.trim()).filter(Boolean),options:OP.filter(x=>x.n.trim()&&x.v.trim()).map(x=>({name:x.n.trim(),values:x.v.split(/[,،]/).map(z=>z.trim()).filter(Boolean)})),
+bestseller:$('#e_best').checked,new_launch:$('#e_new').checked,hidden:$('#e_hid').checked});
+const od=+$('#e_old').value,st=$('#e_stock').value;if(od>0)p.old_price=od;else delete p.old_price;if(st!=='')p.stock=Math.max(0,+st);else delete p.stock;
+if(cur<0)prods.unshift(p);else prods[cur]=p;await push((cur<0?'Add ':'Update ')+n);$('#dlg').close();main();toast('✔ محفوظ ہو گیا۔ سائٹ پر ایک دو منٹ میں نظر آئے گا۔',5000)}catch(e){toast(e.message||'مسئلہ آیا، دوبارہ کوشش کریں۔',6000)}}
+async function del(){if(!confirm('کیا واقعی یہ پروڈکٹ مٹانا ہے؟'))return;const keep=prods[cur];prods.splice(cur,1);toast('مٹایا جا رہا ہے…',0);try{await push('Delete '+(keep.name||''));$('#dlg').close();main();toast('پروڈکٹ مٹا دیا گیا۔')}catch(e){prods.splice(cur,0,keep);toast(e.message,6000)}}
+C.tok?load():login();
+</script></body></html>

@@ -59,3 +59,10 @@ dialog{border:0;border-radius:14px;padding:0;max-width:min(880px,94vw);width:100
 .payinfo{background:#f5f5f3;border:1px dashed #111;border-radius:10px;padding:10px 12px;font-size:14px}.payinfo span{font-weight:700}.cpy{margin:6px 0;border:0;background:#111;color:#fff;border-radius:99px;padding:6px 14px;cursor:pointer}
 a.cpy{display:inline-block;text-decoration:none}
 .sec h1{font-size:clamp(26px,3.4vw,44px)}.seo{max-width:900px;margin:36px auto;padding:0 4vw;color:#333;line-height:1.7}.seo h2{font:400 26px Anton;border:0;text-align:left;margin:0 0 8px;padding:0}#intro{padding-bottom:6px}.fq{border-bottom:1px solid #ddd;padding:10px 0}.fq summary{cursor:pointer;font-weight:600}.fq p{margin:8px 0 0;color:#444}
+
+/* product card 3D hover + product options */
+.pc{transition:transform .2s ease-out,box-shadow .25s;will-change:transform}
+@media(hover:hover){.pc:hover{box-shadow:0 22px 40px rgba(0,0,0,.2);position:relative;z-index:3}.pc .im img{transition:transform .35s}.pc:hover .im img{transform:scale(1.08)}}
+#pex{display:flex;flex-direction:column;gap:10px}.pf{margin:0;padding-left:18px;font-size:14px;line-height:1.6}.pz{font-size:14px}
+.po{display:flex;flex-direction:column;gap:4px;font:600 13px Inter,sans-serif;text-transform:uppercase;letter-spacing:.05em}.po select{padding:11px;border:1px solid #bbb;font:500 15px Inter,sans-serif;text-transform:none}
+.pol{max-width:820px;margin:0 auto;line-height:1.75}.pol h2{font:800 26px var(--d);text-transform:uppercase;margin:28px 0 6px}.pol ul{padding-left:20px}

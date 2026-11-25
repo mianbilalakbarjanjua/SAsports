@@ -28,9 +28,9 @@ media_libraries:
       transformations:
         raster_image:
           format: webp
-          quality: 82
-          width: 1400
-          height: 1400
+          quality: 90
+          width: 1800
+          height: 1800
 
 collections:
   - name: home
@@ -117,10 +117,22 @@ collections:
               - { label: "Stock / سٹاک کی تعداد", name: stock, widget: number, value_type: int, min: 0, required: false, hint: "How many pieces are left. 0 = shows Sold out. Leave empty = do not show stock. 10 or fewer = shows Only X left. / خالی چھوڑیں تو سٹاک نہیں دکھے گا۔ ۰ لکھیں تو Sold out۔" }
               - { label: "Photo / تصویر", name: image, widget: image, hint: "One clear photo, ideally with a plain background. It is shrunk automatically. / ایک صاف تصویر، سادہ پس منظر بہتر ہے۔" }
               - { label: "Description / تفصیل", name: description, widget: text, hint: "One or two short lines. / ایک دو مختصر لائنیں۔" }
+              - { label: "Size / سائز (e.g. Full Size, 26 inch)", name: size, widget: string, required: false }
+              - { label: "Key features, one per line / خاص باتیں", name: features, widget: list, required: false, field: { label: "Feature / خوبی", name: f, widget: string }, hint: "e.g. Sheep leather, Full protection, International standards. / ہر خوبی الگ لائن میں" }
+              - label: "Choices for the customer / گاہک کے آپشنز"
+                name: options
+                widget: list
+                required: false
+                label_singular: "option"
+                summary: "{{fields.name}}"
+                hint: "Add an option such as Hand with choices Left and Right. Add as many as you need (Size, Colour, Weight...). / مثلاً Hand: Left, Right"
+                fields:
+                  - { label: "Option name / آپشن کا نام", name: name, widget: string }
+                  - { label: "Choices / انتخابات", name: values, widget: list, field: { label: "Choice", name: v, widget: string } }
               - { label: "Old price (for Sale badge) / پرانی قیمت", name: old_price, widget: number, value_type: int, min: 0, required: false, hint: "Higher than price = shows a Sale badge with this price crossed out. / قیمت سے زیادہ لکھیں تو سیل کا نشان آئے گا۔" }
-          - { label: "Show in Bestseller / بیسٹ سیلر میں دکھائیں", name: bestseller, widget: boolean, default: false }
-          - { label: "Show in New Launches / نئی لانچ میں دکھائیں", name: new_launch, widget: boolean, default: false }
-          - { label: "Hide from website / سائٹ سے چھپائیں", name: hidden, widget: boolean, default: false, hint: "Switch on to hide this product without deleting it. / بغیر ڈیلیٹ کیے چھپانے کے لیے آن کریں۔" }
+              - { label: "Show in Bestseller / بیسٹ سیلر میں دکھائیں", name: bestseller, widget: boolean, default: false }
+              - { label: "Show in New Launches / نئی لانچ میں دکھائیں", name: new_launch, widget: boolean, default: false }
+              - { label: "Hide from website / سائٹ سے چھپائیں", name: hidden, widget: boolean, default: false, hint: "Switch on to hide this product without deleting it. / بغیر ڈیلیٹ کیے چھپانے کے لیے آن کریں۔" }
 
   - name: more
     label: "Reviews & Settings / ریویو اور ترتیبات"
@@ -161,6 +173,50 @@ collections:
             fields:
               - { label: "Extra / چیز", name: name, widget: string }
               - { label: "Price (Rs) / قیمت", name: price, widget: number, value_type: int, min: 0 }
+      - name: pages
+        label: "Page texts & policies / صفحات کا متن"
+        file: pages.json
+        format: json
+        fields:
+          - label: "Track order page / ٹریک صفحہ"
+            name: track
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Heading / عنوان", name: title, widget: string }
+              - { label: "Intro line / تعارف", name: intro, widget: string, required: false }
+              - { label: "Note at bottom / نیچے کا نوٹ", name: note, widget: string, required: false }
+          - label: "Wholesale page / تھوک صفحہ"
+            name: wholesale
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Heading / عنوان", name: title, widget: string }
+              - { label: "Intro line / تعارف", name: intro, widget: string, required: false }
+          - label: "Return policy / واپسی پالیسی"
+            name: returns
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Heading / عنوان", name: title, widget: string }
+              - { label: "Intro line / تعارف", name: intro, widget: string, required: false }
+              - { label: "Text (## = heading, - = bullet, blank line = new paragraph)", name: body, widget: text }
+          - label: "Shipping policy / شپنگ پالیسی"
+            name: shipping
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Heading / عنوان", name: title, widget: string }
+              - { label: "Intro line / تعارف", name: intro, widget: string, required: false }
+              - { label: "Text (## = heading, - = bullet, blank line = new paragraph)", name: body, widget: text }
+          - label: "Privacy policy / پرائیویسی پالیسی"
+            name: privacy
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Heading / عنوان", name: title, widget: string }
+              - { label: "Intro line / تعارف", name: intro, widget: string, required: false }
+              - { label: "Text (## = heading, - = bullet, blank line = new paragraph)", name: body, widget: text }
       - name: payments
         label: "Payment methods / ادائیگی کے طریقے"
         file: payments.json
@@ -189,6 +245,11 @@ collections:
         file: settings.json
         format: json
         fields:
+          - { label: "Phone number shown in footer / فون نمبر", name: phone_display, widget: string, required: false }
+          - { label: "WhatsApp number, digits only (923001234567) / واٹس ایپ نمبر", name: whatsapp, widget: string, required: false, pattern: ["^[0-9]{8,15}$", "Digits only, with country code, no + or spaces"] }
+          - { label: "Footer text / فُوٹر کا متن", name: footer_note, widget: string, required: false }
+          - { label: "Google title (home page) / سرچ ٹائٹل", name: seo_title, widget: string, required: false }
+          - { label: "Google description (home page) / سرچ تفصیل", name: seo_description, widget: text, required: false }
           - { label: "Value of Rs 1 in US dollars (for example 0.0036) / ایک روپے کے کتنے ڈالر", name: usd, widget: number, value_type: float, step: 0.0001 }
           - { label: "Value of Rs 1 in British pounds (for example 0.0027) / ایک روپے کے کتنے پاؤنڈ", name: gbp, widget: number, value_type: float, step: 0.0001 }
           - { label: "Value of Rs 1 in euros (for example 0.0031) / ایک روپے کے کتنے یورو", name: eur, widget: number, value_type: float, step: 0.0001 }

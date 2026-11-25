@@ -1,0 +1,26 @@
+{
+  "track": {
+    "title": "Track your order",
+    "intro": "Know where your parcel is, in three simple steps.",
+    "note": "We answer on WhatsApp with the latest status."
+  },
+  "wholesale": {
+    "title": "Wholesale",
+    "intro": "Shops, academies and clubs: buy straight from the manufacturer in Sialkot."
+  },
+  "returns": {
+    "title": "Return & Exchange Policy",
+    "intro": "Your satisfaction matters to us. Please read how returns and exchanges work.",
+    "body": "## Returns\nIf your item arrives damaged or is not what you ordered, contact us on WhatsApp within 7 days of delivery with your order number and clear photos.\n\n## Exchange\nWe will gladly exchange an unused item for another size or hand option, subject to availability.\n\n## Not returnable\n- Customized or made-to-order bats\n- Items that have been used or played with\n\n## How to start\nMessage us on WhatsApp with your order number. We will confirm the next steps within 1 to 2 working days."
+  },
+  "shipping": {
+    "title": "Shipping Policy",
+    "intro": "How and when your SA Sports order reaches you.",
+    "body": "## Delivery in Pakistan\nOrders are dispatched from Sialkot within 1 to 3 working days. Delivery usually takes 3 to 5 working days.\n\n## International orders\nWe ship worldwide. Shipping cost and time are confirmed on WhatsApp before you pay.\n\n## Tracking\nOnce your parcel is dispatched we send you the courier name and tracking number.\n\n## Payment\nCash on delivery is available in Pakistan. Bank and wallet transfers are also accepted."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "How SA Sports handles your information.",
+    "body": "## What we collect\nOnly what you give us when you order: name, phone number, city and delivery address.\n\n## How we use it\nWe use it only to confirm, pack and deliver your order and to answer your questions. We do not sell your information.\n\n## Cards\nThis website never takes card details.\n\n## Contact\nFor any privacy question message us on WhatsApp."
+  }
+}

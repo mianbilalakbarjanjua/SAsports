@@ -1,4 +1,4 @@
-const WA='923434762195',$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let WA='923434762195';const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let CUR='PKR';try{CUR=localStorage.getItem('sa_cur')||'PKR'}catch(e){}
 let RATES={USD:0.0036,GBP:0.0027,EUR:0.0031};const SYM={USD:'$',GBP:'£',EUR:'€'};
 const pkr=n=>'Rs. '+n.toLocaleString('en-PK'),pk=n=>(CUR==='PKR'||!RATES[CUR])?pkr(n):SYM[CUR]+(n*RATES[CUR]).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -40,7 +40,7 @@ const FALLBACK=[
 ['kits','Full Kits','kit4','SA Pro Combo Kit',55000,'Premium combo of bat, protection and kit bag at a bundled price.'],
 ['kits','Accessories','cover','SA Bat Cover and Grips Pack',1200,'Protective bat cover with spare grips to keep your blade fresh.']
 ];
-function setProducts(raw){const seen={};P=(raw||[]).filter(x=>x&&x.name&&!x.hidden).map((x,i)=>{let id=slug(x.name)||('p'+i);if(seen[id])id+='-'+i;seen[id]=1;const st=(x.stock===''||x.stock==null||isNaN(+x.stock))?null:Math.max(0,+x.stock),r=rel(x.image);return{id,c:x.category,s:x.sub,rel:r,image:BASE+r,n:String(x.name),p:+x.price||0,old:+x.old_price||0,d:String(x.description||''),stock:st,best:!!x.bestseller,nw:!!x.new_launch}});PM={};P.forEach(p=>PM[p.id]=p);pR=1;redraw();drawCart()}
+function setProducts(raw){const seen={};P=(raw||[]).filter(x=>x&&x.name&&!x.hidden).map((x,i)=>{let id=slug(x.name)||('p'+i);if(seen[id])id+='-'+i;seen[id]=1;const st=(x.stock===''||x.stock==null||isNaN(+x.stock))?null:Math.max(0,+x.stock),r=rel(x.image);return{id,c:x.category,s:x.sub,rel:r,image:BASE+r,n:String(x.name),p:+x.price||0,old:+x.old_price||0,d:String(x.description||''),stock:st,best:!!x.bestseller,nw:!!x.new_launch,sz:String(x.size||''),f:(x.features||[]).map(v=>typeof v==='string'?v:(v&&v.f)).filter(Boolean),o:(x.options||[]).filter(q=>q&&q.name&&(q.values||[]).length).map(q=>({n:q.name,v:q.values.map(z=>typeof z==='string'?z:(z&&z.v)).filter(Boolean)}))}});PM={};P.forEach(p=>PM[p.id]=p);pR=1;redraw();drawCart()}
 function injectLD(){const c=CATS.find(x=>x[0]===PAGECAT);if(!c)return;let e=document.getElementById('ld-items');if(!e){e=document.createElement('script');e.type='application/ld+json';e.id='ld-items';document.head.appendChild(e)}e.textContent=JSON.stringify({'@context':'https://schema.org','@type':'ItemList',name:'SA Sports '+c[1],itemListElement:P.filter(p=>p.c===PAGECAT).map((p,i)=>({'@type':'ListItem',position:i+1,item:{'@type':'Product',name:p.n,description:p.d,image:SITE+p.rel,brand:{'@type':'Brand',name:'SA Sports'},offers:{'@type':'Offer',url:SITE+c[3]+'/',priceCurrency:'PKR',price:String(p.p),availability:p.stock===0?'https://schema.org/OutOfStock':'https://schema.org/InStock'}}}))})}
 const card=p=>{const so=p.stock===0,low=p.stock!=null&&p.stock>0&&p.stock<=10,sale=p.old>p.p;return `<article class="pc"><div class="im" data-pv="${esc(p.id)}">${so?'<span class="bd so">Sold out</span>':sale?'<span class="bd">Sale</span>':low?`<span class="bd lo">Only ${p.stock} left</span>`:''}<img src="${esc(p.image)}" alt="${esc(p.n)}" loading="lazy">${so?'':`<button class="qa" data-add="${esc(p.id)}" aria-label="Add to cart">+</button>`}</div><h3>${esc(p.n)}</h3><div class="pr">${pk(p.p)}${sale?` <s>${pk(p.old)}</s>`:''}</div></article>`};
 const car=(h,c='')=>`<div class="cw"><button class="ar l" data-sc="-1" aria-label="Previous">‹</button><div class="car ${c}">${h}</div><button class="ar r" data-sc="1" aria-label="Next">›</button></div>`;
@@ -62,19 +62,21 @@ const V=(H.videos||[]).filter(v=>v&&v.file);$('#vt').textContent=H.videos_title|
 const G=(H.gallery||[]).filter(g=>g&&g.image);on('#gal',car(G.map(g=>`<img src="${esc(BASE+rel(g.image))}" alt="" loading="lazy">`).join('')),G.length);
 const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?e.target.play().catch(()=>{}):e.target.pause()),{threshold:.4});$$('#vg video').forEach(v=>io.observe(v))}
 document.addEventListener('click',e=>{const s=e.target.closest('[data-sub]'),a=e.target.closest('[data-add]'),v=e.target.closest('[data-pv]'),c=e.target.closest('[data-sc]'),d=e.target.closest('[data-d]');
-if(s){sub=s.dataset.sub;render()}if(a&&!a.disabled){add(a.dataset.add);return}if(v)pv(v.dataset.pv);
+if(s){sub=s.dataset.sub;render()}if(a&&!a.disabled){const q=PM[a.dataset.add];if(q&&q.o.length){pv(q.id);return}add(a.dataset.add);return}if(v)pv(v.dataset.pv);
 if(c){const w=c.closest('.cw').querySelector('.car');w.scrollBy({left:c.dataset.sc*w.clientWidth*.8,behavior:'smooth'})}
 if(d)go(+d.dataset.d);if(e.target.id==='hn')go(si+1);if(e.target.id==='hp')go(si-1)});
 const sb=$('#sbtn');if(sb){sb.onclick=()=>{const s=$('#srch');s.hidden=!s.hidden;if(!s.hidden)$('#sq').focus()};$('#sq').oninput=e=>{const k=s=>s.toLowerCase().replace(/[^a-z0-9]/g,''),q=k(e.target.value);$('#sr').innerHTML=q?'<div class="grid">'+P.filter(p=>k(p.n).includes(q)||k(p.d).includes(q)).slice(0,12).map(card).join('')+'</div>':''}}
 /* product viewer */
-let pid='';function pv(i){const p=PM[i];if(!p)return;pid=i;$('#pi').src=p.image;$('#pi').alt=p.n;$('#pa').disabled=p.stock===0;$('#pa').textContent=p.stock===0?'Sold out':'Add to cart';$('#pn').textContent=p.n;$('#pd').textContent=p.d;$('#pp').textContent=pk(p.p);$('#pv').showModal()}
-$('#px').onclick=()=>$('#pv').close();$('#pv').addEventListener('click',e=>{if(e.target.id==='pv')e.target.close()});$('#pa').onclick=()=>{add(pid);$('#pv').close()};
+let pid='';function pv(i){const p=PM[i];if(!p)return;pid=i;$('#pi').src=p.image;$('#pi').alt=p.n;$('#pa').disabled=p.stock===0;$('#pa').textContent=p.stock===0?'Sold out':'Add to cart';$('#pn').textContent=p.n;$('#pd').textContent=p.d;$('#pp').textContent=pk(p.p);let x=$('#pex');if(!x){x=document.createElement('div');x.id='pex';$('#pa').before(x)}
+x.innerHTML=(p.sz?`<div class="pz"><b>Size:</b> ${esc(p.sz)}</div>`:'')+(p.f.length?'<ul class="pf">'+p.f.map(t=>`<li>${esc(t)}</li>`).join('')+'</ul>':'')+p.o.map((q,k)=>`<label class="po">${esc(q.n)}<select data-po="${k}">${q.v.map(z=>`<option>${esc(z)}</option>`).join('')}</select></label>`).join('');$('#pv').showModal()}
+function ens(k){if(!PM[k]&&k.indexOf('~')>0){const b=PM[k.split('~')[0]];if(b)PM[k]=Object.assign({},b,{n:b.n+' ('+k.split('~')[1]+')'})}}
+$('#px').onclick=()=>$('#pv').close();$('#pv').addEventListener('click',e=>{if(e.target.id==='pv')e.target.close()});$('#pa').onclick=()=>{const p=PM[pid],ch=$$('#pex select').map((s,k)=>p.o[k].n+': '+s.value);let key=pid;if(ch.length)key=pid+'~'+ch.join(', ').replace(/[^\w ,:.\-]/g,'');ens(key);add(key);$('#pv').close()};
 /* cart (shared between all pages through localStorage) */
 let cart={};try{cart=JSON.parse(localStorage.getItem('sa_cart')||'{}')}catch(e){}
 const save=()=>{try{localStorage.setItem('sa_cart',JSON.stringify(cart))}catch(e){}};
 function toast(t){const x=$('#toast');x.textContent=t;x.classList.add('on');setTimeout(()=>x.classList.remove('on'),1600)}
 function add(i,n=1){const p=PM[i];if(!p)return;let q=(cart[i]||0)+n;if(n>0&&p.stock===0){toast('Sold out');return}if(n>0&&p.stock!=null&&q>p.stock){q=p.stock;toast('Only '+p.stock+' available')}else if(n>0)toast('Added to cart');if(q<=0)delete cart[i];else cart[i]=q;save();drawCart()}
-function drawCart(){if(P.length)Object.keys(cart).forEach(k=>{if(!PM[k])delete cart[k]});const ids=Object.keys(cart).filter(i=>PM[i]);let t=0,n=0;
+function drawCart(){Object.keys(cart).forEach(ens);if(P.length)Object.keys(cart).forEach(k=>{if(!PM[k])delete cart[k]});const ids=Object.keys(cart).filter(i=>PM[i]);let t=0,n=0;
 $('#ci').innerHTML=ids.length?ids.map(i=>{const p=PM[i],q=cart[i];t+=p.p*q;n+=q;return `<div class="it"><img src="${esc(p.image)}" alt=""><div><b>${esc(p.n)}</b><div class="q"><button onclick="add('${i}',-1)" aria-label="Less">−</button>${q}<button onclick="add('${i}',1)" aria-label="More">+</button></div></div><b>${pk(p.p*q)}</b></div>`}).join(''):'<p class="note" style="padding:30px 0">Your cart is empty. Add something from the collection.</p>';
 $('#tot').textContent=pk(t);$('#cn').textContent=n;$('#cf').style.display=ids.length?'':'none'}
 $('#openCart').onclick=()=>$('#cart').classList.add('open');$('#closeCart').onclick=()=>$('#cart').classList.remove('open');
@@ -89,7 +91,10 @@ const wl=t=>`https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
 const cs=$('#cur');if(cs){cs.value=CUR;cs.onchange=()=>{CUR=cs.value;try{localStorage.setItem('sa_cur',CUR)}catch(e){};redraw();drawCart()}}
 const nl=$('#nl');if(nl)nl.onsubmit=e=>{e.preventDefault();window.open(wl('Hello SA Sports, please add me to your club. My number / email: '+nl.elements[0].value),'_blank')};
 const wc=$('#waCustom');if(wc){wc.href=wl('Hello SA Sports, I want a customized bat. Details: ');wc.target='_blank'}
-fetch(BASE+'settings.json',{cache:'no-cache'}).then(r=>r.json()).then(s=>{['USD','GBP','EUR'].forEach(k=>{const v=+s[k.toLowerCase()];if(v>0)RATES[k]=v});const w=$('#wsnote');if(w&&s.wholesale_note)w.textContent=s.wholesale_note;redraw();drawCart()}).catch(()=>{});
+fetch(BASE+'settings.json',{cache:'no-cache'}).then(r=>r.json()).then(s=>{['USD','GBP','EUR'].forEach(k=>{const v=+s[k.toLowerCase()];if(v>0)RATES[k]=v});const w=$('#wsnote');if(w&&s.wholesale_note)w.textContent=s.wholesale_note;
+if(/^\d{8,15}$/.test(String(s.whatsapp||''))){WA=String(s.whatsapp);$$('a[href*="wa.me/"]').forEach(l=>l.href=l.href.replace(/wa\.me\/\d+/,'wa.me/'+WA))}
+if(s.phone_display)$$('[data-phone]').forEach(e=>e.textContent=s.phone_display);if(s.footer_note)$$('[data-foot]').forEach(e=>e.textContent=s.footer_note);
+if($('#hero')){if(s.seo_title)document.title=s.seo_title;const m=document.querySelector('meta[name=description]');if(m&&s.seo_description)m.content=s.seo_description}redraw();drawCart()}).catch(()=>{});
 fetch(BASE+'home.json',{cache:'no-cache'}).then(r=>r.json()).then(d=>{H=d;hR=1;setAnn();redraw()}).catch(()=>{});
 const rv=$('#revList');if(rv)fetch(BASE+'reviews.json',{cache:'no-cache'}).then(r=>r.json()).then(d=>{const L=(d.reviews||[]).filter(x=>x&&x.name&&x.text);if(!L.length)return;rv.innerHTML=L.map(x=>{const n=Math.max(1,Math.min(5,+x.rating||5));return `<div class="rev"><span class="stars" aria-label="${n} out of 5">${'★'.repeat(n)}${'☆'.repeat(5-n)}</span><p>${esc(x.text)}</p><b>${esc(x.name)}</b><small>${esc(x.city||'')}</small></div>`}).join('');$('#reviews').hidden=false}).catch(()=>{});
 const ws=$('#wsForm');if(ws)ws.onsubmit=e=>{e.preventDefault();const g=n=>(ws.elements[n].value||'').trim(),cats=[...ws.querySelectorAll('input[name=cat]:checked')].map(c=>c.value).join(', ');window.open(wl(`Hello SA Sports, I would like WHOLESALE rates.\n\nName: ${g('n')}\nShop / business: ${g('b')}\nCity / country: ${g('c')}\nInterested in: ${cats||'-'}\nApproximate quantity: ${g('q')||'-'}${g('m')?'\nNote: '+g('m'):''}`),'_blank')};
@@ -107,3 +112,12 @@ b.innerHTML=`<b>${esc(m.type)}</b>${rows.map(r=>`<div>${r[0]?esc(r[0])+': ':''}<
 payInit();fetch(BASE+'payments.json',{cache:'no-cache'}).then(r=>r.json()).then(d=>{PAY=Object.assign(PAY,d);payInit()}).catch(()=>{});
 
 const _dc=drawCart;drawCart=function(){_dc();if(window.__showPay)window.__showPay()};
+
+/* editable page texts (pages.json, edited in /admin) */
+fetch(BASE+'pages.json',{cache:'no-cache'}).then(r=>r.json()).then(d=>{$$('[data-t]').forEach(e=>{const v=e.dataset.t.split('.').reduce((o,k)=>o&&o[k],d);if(v)e.textContent=v});
+$$('[data-body]').forEach(e=>{const v=(e.dataset.body.split('.').reduce((o,k)=>o&&o[k],d)||'');if(v)e.innerHTML=mdx(v)})}).catch(()=>{});
+function mdx(t){return String(t).split(/\n\s*\n/).map(b=>{b=b.trim();if(/^##\s/.test(b))return '<h2>'+esc(b.replace(/^##\s*/,''))+'</h2>';if(/^[-*]\s/.test(b))return '<ul>'+b.split('\n').map(l=>'<li>'+esc(l.replace(/^[-*]\s*/,''))+'</li>').join('')+'</ul>';return '<p>'+esc(b).replace(/\n/g,'<br>')+'</p>'}).join('')}
+/* 3D tilt on product cards */
+if(matchMedia('(hover:hover)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches){let cur=null;
+document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.pc');if(cur&&cur!==c){cur.style.transform='';cur=null}if(!c)return;cur=c;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(900px) rotateY(${x*12}deg) rotateX(${-y*12}deg) scale(1.05)`});
+document.addEventListener('pointerleave',()=>{if(cur){cur.style.transform='';cur=null}})}
