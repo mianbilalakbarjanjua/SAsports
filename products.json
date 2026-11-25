@@ -425,15 +425,6 @@
       "old_price": 9000
     },
     {
-      "category": "gloves",
-      "sub": "Batting",
-      "image": "/img/bat-gloves.webp",
-      "name": "SA Batting Gloves",
-      "price": 4800,
-      "description": "Flexible finger protection and breathable palm for long innings.",
-      "hidden": false
-    },
-    {
       "category": "protect",
       "sub": "Guards",
       "image": "/img/sa-thigh-guard-white-mwwlx0cbkrs.webp",
