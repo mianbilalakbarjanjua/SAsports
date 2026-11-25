@@ -41,15 +41,6 @@
     {
       "category": "bats",
       "sub": "Premium",
-      "image": "/img/bat-le.webp",
-      "name": "SA Limited Edition",
-      "price": 24500,
-      "description": "Our top-spec blade. Hand-selected willow, long barrel, pro-level pick-up.",
-      "hidden": false
-    },
-    {
-      "category": "bats",
-      "sub": "Premium",
       "image": "/img/bat-pro.webp",
       "name": "SA Pro",
       "price": 14500,
