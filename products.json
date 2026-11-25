@@ -41,15 +41,6 @@
     {
       "category": "bats",
       "sub": "Premium",
-      "image": "/img/bat-pro.webp",
-      "name": "SA Pro",
-      "price": 14500,
-      "description": "The all-rounder: balanced, quick off the bat and ready for hard-ball cricket.",
-      "hidden": false
-    },
-    {
-      "category": "bats",
-      "sub": "Premium",
       "image": "/img/bat-31.webp",
       "name": "SA Pro Elite",
       "price": 16500,
