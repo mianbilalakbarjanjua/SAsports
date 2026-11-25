@@ -538,15 +538,6 @@
       "price": 52000,
       "description": "A full white kit with wicketkeeping gloves, pads, helmet and bag.",
       "hidden": false
-    },
-    {
-      "category": "kits",
-      "sub": "Full Kits",
-      "image": "/img/kit4.webp",
-      "name": "SA Pro Combo Kit",
-      "price": 55000,
-      "description": "Premium combo of bat, protection and kit bag at a bundled price.",
-      "hidden": false
     }
   ]
 }
