@@ -161,15 +161,6 @@
     },
     {
       "category": "pads",
-      "sub": "Classic",
-      "image": "/img/pads-black2.webp",
-      "name": "SA Match Pads, Black",
-      "price": 5200,
-      "description": "Ribbed protection and flexible knee roll for quick running.",
-      "hidden": false
-    },
-    {
-      "category": "pads",
       "sub": "Colour",
       "image": "/img/sa-pro-colour-pads-royal-blue-mwwldfc2ay1.webp",
       "name": "SA Pro Colour Pads, Royal Blue",
