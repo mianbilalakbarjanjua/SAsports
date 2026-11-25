@@ -59,15 +59,6 @@
     {
       "category": "bats",
       "sub": "Classic",
-      "image": "/img/bat-cricket.webp",
-      "name": "SA Cricket Classic",
-      "price": 9500,
-      "description": "A clean everyday blade for club cricketers and serious practice.",
-      "hidden": false
-    },
-    {
-      "category": "bats",
-      "sub": "Classic",
       "image": "/img/bat-blue.webp",
       "name": "SA Cricket Blue Series",
       "price": 8500,
