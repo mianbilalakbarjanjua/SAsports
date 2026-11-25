@@ -5,6 +5,44 @@
       "category": "gloves",
       "sub": "Batting",
       "price": 5000,
+      "image": "/img/pro-89-edition-mwwjr8l9k90.webp",
+      "description": "",
+      "size": "Full Size/Adult Size",
+      "features": [
+        "Full protection",
+        "Sheep leather",
+        "QUALITY INTERNATIONAL STANDARDS"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        },
+        {
+          "name": "Colour",
+          "values": [
+            "Black",
+            "White"
+          ]
+        }
+      ],
+      "bestseller": true,
+      "new_launch": true,
+      "hidden": false,
+      "gallery": [
+        "/img/pro-89-edition-mwwjrayplht.webp",
+        "/img/pro-89-edition-mwwjrdbzl2c.webp"
+      ],
+      "old_price": 7000
+    },
+    {
+      "name": "Pro 89 edition",
+      "category": "gloves",
+      "sub": "Batting",
+      "price": 5000,
       "image": "/img/pro-89-edition-mwwjib25cvq.webp",
       "description": "",
       "size": "Full Size/Adult Size",
