@@ -516,15 +516,6 @@
     {
       "category": "protect",
       "sub": "Guards",
-      "image": "/img/guard-black.webp",
-      "name": "SA Thigh Guard, Black and Gold",
-      "price": 2800,
-      "description": "Hard-shell guard with extra cushioning and a secure strap.",
-      "hidden": false
-    },
-    {
-      "category": "protect",
-      "sub": "Guards",
       "image": "/img/guard-pro.webp",
       "name": "SA Pro Thigh Guard",
       "price": 2600,
