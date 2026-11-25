@@ -505,21 +505,41 @@
       "old_price": 9000
     },
     {
-      "category": "protect",
-      "sub": "Guards",
+      "category": "pads",
+      "sub": "Classic",
       "image": "/img/sa-thigh-guard-white-mwwlx0cbkrs.webp",
-      "name": "SA Thigh Guard, White",
-      "price": 2200,
+      "name": "SA PRO GRADE LEATHER THAI PAD",
+      "price": 5000,
       "description": "Slim, comfortable thigh protection for batters who move freely.",
       "hidden": false,
-      "size": "",
-      "features": [],
-      "options": [],
+      "size": "Full Size/Adult Size",
+      "features": [
+        "SA PRO LEATHER THAI PAD",
+        "INTERNATIONAL STANDAR",
+        "FULL SIZE"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        },
+        {
+          "name": "Colour",
+          "values": [
+            "Black",
+            "White"
+          ]
+        }
+      ],
       "bestseller": false,
       "new_launch": false,
       "gallery": [
         "/img/sa-thigh-guard-white-mwwlx279cio.webp"
-      ]
+      ],
+      "old_price": 6487
     },
     {
       "category": "protect",
