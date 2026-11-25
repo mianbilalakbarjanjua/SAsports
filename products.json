@@ -59,15 +59,6 @@
     {
       "category": "bats",
       "sub": "Classic",
-      "image": "/img/bat-blue.webp",
-      "name": "SA Cricket Blue Series",
-      "price": 8500,
-      "description": "Bold blue SA branding on a light, lively blade. Great for rising players.",
-      "hidden": false
-    },
-    {
-      "category": "bats",
-      "sub": "Classic",
       "image": "/img/bat-sports.webp",
       "name": "SA Sports Heritage",
       "price": 11500,
