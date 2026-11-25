@@ -1,6 +1,37 @@
 {
   "products": [
     {
+      "name": "MR 360 edition",
+      "category": "gloves",
+      "sub": "Batting",
+      "price": 6000,
+      "image": "/img/mr-360-edition-mwwjue7ayjm.webp",
+      "description": "",
+      "size": "Full Size/Adult Size",
+      "features": [
+        "Full protection",
+        "Sheep leather",
+        "QUALITY INTERNATIONAL STANDARDS"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        }
+      ],
+      "bestseller": true,
+      "new_launch": true,
+      "hidden": false,
+      "gallery": [
+        "/img/mr-360-edition-mwwjuglqsrz.webp",
+        "/img/mr-360-edition-mwwjuj79vl6.webp"
+      ],
+      "old_price": 8000
+    },
+    {
       "name": "Pro 89 edition",
       "category": "gloves",
       "sub": "Batting",
