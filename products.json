@@ -48,6 +48,53 @@
       "old_price": 4500
     },
     {
+      "name": "SA PLAYER EDITION LEG THAI PAD",
+      "category": "pads",
+      "sub": "Colour",
+      "price": 3000,
+      "image": "/img/sa-player-edition-leg-thai-pad-mwwmctwur9z.webp",
+      "description": "",
+      "size": "Full Size/Adult Size",
+      "features": [
+        "SA PLAYER EDITION",
+        "LEG THAI PAD",
+        "QUALITY INTERNATIONAL STANDARDS",
+        "FULL SIZE",
+        "PRICE 3000"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        },
+        {
+          "name": "Colour",
+          "values": [
+            "Black",
+            "White",
+            "Royal Blue"
+          ]
+        }
+      ],
+      "bestseller": true,
+      "new_launch": true,
+      "hidden": false,
+      "gallery": [
+        "/img/sa-player-edition-leg-thai-pad-mwwmcwfm4dy.webp",
+        "/img/sa-player-edition-leg-thai-pad-mwwmcykgqpo.webp",
+        "/img/sa-player-edition-leg-thai-pad-mwwmd0uxlhc.webp",
+        "/img/sa-player-edition-leg-thai-pad-mwwmd2oc5ms.webp",
+        "/img/sa-player-edition-leg-thai-pad-mwwmd5kmzzc.webp",
+        "/img/sa-player-edition-leg-thai-pad-mwwmd84oemb.webp",
+        "/img/sa-player-edition-leg-thai-pad-mwwmda83sng.webp",
+        "/img/sa-player-edition-leg-thai-pad-mwwmdbz5y3e.webp"
+      ],
+      "old_price": 4500
+    },
+    {
       "name": "SA PRO BATTING PAD",
       "category": "pads",
       "sub": "Classic",
@@ -128,7 +175,7 @@
       "category": "pads",
       "sub": "Classic",
       "price": 6500,
-      "image": "/img/sa-pro-batting-pad-test-edition-mwwlnhtm7ik.webp",
+      "image": "/img/sa-pro-batting-pad-test-edition-mwwmg02vj90.webp",
       "description": "",
       "size": "",
       "features": [
@@ -152,6 +199,7 @@
       "new_launch": true,
       "hidden": false,
       "gallery": [
+        "/img/sa-pro-batting-pad-test-edition-mwwlnhtm7ik.webp",
         "/img/sa-pro-batting-pad-test-edition-mwwlnk02xwx.webp"
       ],
       "old_price": 8000
