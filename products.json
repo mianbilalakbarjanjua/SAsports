@@ -1,6 +1,44 @@
 {
   "products": [
     {
+      "name": "SA PRO BATTING PAD",
+      "category": "pads",
+      "sub": "Classic",
+      "price": 3500,
+      "image": "/img/sa-pro-batting-pad-mwwlu27jmvf.webp",
+      "description": "",
+      "size": "Full Size/25 Inch",
+      "features": [
+        "SA PRO BATTING PAD",
+        "SIZE : Normal size ( 25 inch )",
+        "Right hand & left hand",
+        "Full protection"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        },
+        {
+          "name": "Colour",
+          "values": [
+            "Black",
+            "White"
+          ]
+        }
+      ],
+      "bestseller": true,
+      "new_launch": true,
+      "hidden": false,
+      "gallery": [
+        "/img/sa-pro-batting-pad-mwwlu4enek1.webp"
+      ],
+      "old_price": 5000
+    },
+    {
       "name": "SA Pro Batting Pad",
       "category": "pads",
       "sub": "Classic",
