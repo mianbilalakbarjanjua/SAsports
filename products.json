@@ -146,11 +146,45 @@
     {
       "category": "pads",
       "sub": "Colour",
-      "image": "/img/pads-red.webp",
-      "name": "SA Colour Pads, Red",
-      "price": 5500,
+      "image": "/img/sa-pro-colour-pads-red-mwwl4ob4pp0.webp",
+      "name": "SA Pro Colour Pads, Red",
+      "price": 6500,
       "description": "Bold red pads built to the same comfortable, protective spec.",
-      "hidden": false
+      "hidden": false,
+      "size": "",
+      "features": [
+        "SA PRO BATTING PAD",
+        "Pro edition",
+        "International standards",
+        "SIZE : Standard ( 26 inch )",
+        "Right hand & left hand",
+        "Full protection"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        },
+        {
+          "name": "Colour",
+          "values": [
+            "Black",
+            "White",
+            "Red",
+            "Royal Blue"
+          ]
+        }
+      ],
+      "bestseller": false,
+      "new_launch": false,
+      "gallery": [
+        "/img/sa-pro-colour-pads-red-mwwl4qa309w.webp",
+        "/img/sa-pro-colour-pads-red-mwwl4s7pucm.webp"
+      ],
+      "old_price": 8000
     },
     {
       "category": "pads",
