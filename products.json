@@ -164,11 +164,32 @@
     {
       "category": "pads",
       "sub": "Limited",
-      "image": "/img/pads-white2.webp",
+      "image": "/img/sa-limited-edition-pads-white-mwwkwvm0ouk.webp",
       "name": "SA Limited Edition Pads, White",
-      "price": 6800,
-      "description": "Premium white pads with extra cushioning and a sculpted knee roll.",
-      "hidden": false
+      "price": 7500,
+      "description": "Premium white pads with extra cushioning and a sculpted knee roll",
+      "hidden": false,
+      "size": "",
+      "features": [
+        "International standards",
+        "Full protection"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        }
+      ],
+      "bestseller": true,
+      "new_launch": true,
+      "gallery": [
+        "/img/sa-limited-edition-pads-white-mwwkwxn52f3.webp",
+        "/img/sa-limited-edition-pads-white-mwwkwzmf15x.webp"
+      ],
+      "old_price": 9000
     },
     {
       "category": "gloves",
