@@ -435,15 +435,6 @@
     },
     {
       "category": "gloves",
-      "sub": "Wicketkeeping",
-      "image": "/img/wk-gloves2.webp",
-      "name": "SA Keeping Gloves, Player Edition Pro",
-      "price": 7200,
-      "description": "Gold and green Player Edition with reinforced fingers and padded back.",
-      "hidden": false
-    },
-    {
-      "category": "gloves",
       "sub": "Batting",
       "image": "/img/bat-gloves.webp",
       "name": "SA Batting Gloves",
