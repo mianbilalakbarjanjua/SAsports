@@ -426,15 +426,6 @@
     },
     {
       "category": "gloves",
-      "sub": "Wicketkeeping",
-      "image": "/img/wk-gloves.webp",
-      "name": "SA Keeping Gloves, Player Edition",
-      "price": 6500,
-      "description": "Soft palm, wide sweet spot and a snug wrist for clean takes.",
-      "hidden": false
-    },
-    {
-      "category": "gloves",
       "sub": "Batting",
       "image": "/img/bat-gloves.webp",
       "name": "SA Batting Gloves",
