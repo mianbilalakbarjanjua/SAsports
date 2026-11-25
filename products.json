@@ -39,15 +39,6 @@
       "old_price": 7000
     },
     {
-      "category": "bats",
-      "sub": "Premium",
-      "image": "/img/bat-31.webp",
-      "name": "SA Pro Elite",
-      "price": 16500,
-      "description": "Refined Pro profile with a thicker spine for power through the line.",
-      "hidden": false
-    },
-    {
       "category": "pads",
       "sub": "Classic",
       "image": "/img/pads-black.webp",
