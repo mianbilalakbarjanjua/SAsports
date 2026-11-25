@@ -155,11 +155,43 @@
     {
       "category": "pads",
       "sub": "Limited",
-      "image": "/img/pads-le.webp",
+      "image": "/img/sa-limited-edition-pads-black-mwwl0fr9dwf.webp",
       "name": "SA Limited Edition Pads, Black",
       "price": 7500,
       "description": "Premium diamond-quilted shell with gold Limited Edition detailing.",
-      "hidden": false
+      "hidden": false,
+      "size": "",
+      "features": [
+        "SA PRO BATTING PAD",
+        "Limited edition",
+        "International standards",
+        "SIZE : Standard ( 26 inch )",
+        "Right hand & left hand",
+        "Full protection"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        },
+        {
+          "name": "Colour",
+          "values": [
+            "Black",
+            "White"
+          ]
+        }
+      ],
+      "bestseller": false,
+      "new_launch": false,
+      "gallery": [
+        "/img/sa-limited-edition-pads-black-mwwl0i9wn85.webp",
+        "/img/sa-limited-edition-pads-black-mwwl0kl7n5k.webp"
+      ],
+      "old_price": 9000
     },
     {
       "category": "pads",
