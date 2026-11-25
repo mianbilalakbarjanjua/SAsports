@@ -547,15 +547,6 @@
       "price": 55000,
       "description": "Premium combo of bat, protection and kit bag at a bundled price.",
       "hidden": false
-    },
-    {
-      "category": "kits",
-      "sub": "Accessories",
-      "image": "/img/cover.webp",
-      "name": "SA Bat Cover and Grips Pack",
-      "price": 1200,
-      "description": "Protective bat cover with spare grips to keep your blade fresh.",
-      "hidden": false
     }
   ]
 }
