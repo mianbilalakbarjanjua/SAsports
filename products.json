@@ -152,15 +152,6 @@
     },
     {
       "category": "pads",
-      "sub": "Classic",
-      "image": "/img/pads-white.webp",
-      "name": "SA Pro Pads, White",
-      "price": 5800,
-      "description": "Classic white match pads. Light on the legs, firm on impact.",
-      "hidden": false
-    },
-    {
-      "category": "pads",
       "sub": "Colour",
       "image": "/img/sa-pro-colour-pads-royal-blue-mwwldfc2ay1.webp",
       "name": "SA Pro Colour Pads, Royal Blue",
