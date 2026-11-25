@@ -436,15 +436,6 @@
     {
       "category": "balls",
       "sub": "Match",
-      "image": "/img/ball-red.webp",
-      "name": "SA Match Ball, Dark Red",
-      "price": 1950,
-      "description": "Four-piece leather ball with a tight, durable seam and gold SA stamp.",
-      "hidden": false
-    },
-    {
-      "category": "balls",
-      "sub": "Match",
       "image": "/img/ball-set.webp",
       "name": "SA Match Ball, Red",
       "price": 1850,
