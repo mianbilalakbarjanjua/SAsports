@@ -181,6 +181,13 @@
             "Right Hand",
             "Left Hand"
           ]
+        },
+        {
+          "name": "Colour",
+          "values": [
+            "Black",
+            "White"
+          ]
         }
       ],
       "bestseller": true,
