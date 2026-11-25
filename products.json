@@ -41,15 +41,6 @@
     {
       "category": "bats",
       "sub": "Premium",
-      "image": "/img/bat-apex.webp",
-      "name": "SA Apex Series",
-      "price": 18500,
-      "description": "Multi-grain English willow blade with a deep edge and a big, forgiving middle.",
-      "hidden": false
-    },
-    {
-      "category": "bats",
-      "sub": "Premium",
       "image": "/img/bat-le.webp",
       "name": "SA Limited Edition",
       "price": 24500,
