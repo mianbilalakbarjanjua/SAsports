@@ -1,6 +1,38 @@
 {
   "products": [
     {
+      "name": "SA G1 THAI PADAS",
+      "category": "pads",
+      "sub": "Classic",
+      "price": 4000,
+      "image": "/img/sa-g1-thai-padas-mwwmjrcxhwk.webp",
+      "description": "",
+      "size": "Full Size/Adult Size",
+      "features": [
+        "SA G1",
+        "LEG THAI PAD",
+        "QUALITY INTERNATIONAL STANDARDS",
+        "FULL SIZE"
+      ],
+      "options": [
+        {
+          "name": "Hand",
+          "values": [
+            "Right Hand",
+            "Left Hand"
+          ]
+        }
+      ],
+      "bestseller": true,
+      "new_launch": true,
+      "hidden": false,
+      "gallery": [
+        "/img/sa-g1-thai-padas-mwwmjt8pce3.webp",
+        "/img/sa-g1-thai-padas-mwwmjutm66e.webp"
+      ],
+      "old_price": 5495
+    },
+    {
       "name": "SA PLAYER EDITION LEG THAI PAD",
       "category": "pads",
       "sub": "Colour",
